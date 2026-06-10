@@ -12,19 +12,19 @@
     <style>
         body {
             font-family: 'JetBrains Mono', monospace;
-            background: #eef1f6; /* Premium Soft Platinum Gray Background */
+            background: #eef1f6;
         }
         .tech-font {
             font-family: 'Share Tech Mono', sans-serif;
         }
-        /* Tactical Matte Grid Overlay (Dark gray lines on lighter background) */
+        /* Tactical Matte Grid Overlay */
         .tactical-grid {
             background-size: 30px 30px;
             background-image: 
                 linear-gradient(to right, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
         }
-        /* Scanline Effect adapted for lighter premium theme */
+        /* Light Scanline Effect */
         .scanline::after {
             content: " ";
             display: block;
@@ -35,19 +35,18 @@
             background-size: 100% 4px;
             pointer-events: none;
         }
-        /* Ultra Premium Structural Glassmorphism (Light Platinum Style) */
+        /* Ultra Premium Light Structural Panels */
         .platinum-panel {
             background: rgba(255, 255, 255, 0.65);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(148, 163, 184, 0.25);
-            box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.08);
+            box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05);
         }
         .crimson-glow-input:focus-within {
             box-shadow: 0 0 20px rgba(139, 0, 0, 0.12);
             border-color: #8b0000;
         }
-        /* Custom Blinking Cursor */
         .cursor-blink::after {
             content: '|';
             animation: blink 1s infinite;
@@ -58,17 +57,25 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
+        /* Custom layout scroll management */
+        #app-root {
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+        #app-root::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="h-screen w-screen overflow-hidden text-slate-800 antialiased relative select-none scanline">
+<body class="min-h-screen w-screen text-slate-800 antialiased relative select-none scanline">
 
     <div class="absolute inset-0 tactical-grid pointer-events-none z-0"></div>
     <div class="absolute inset-0 bg-gradient-to-tr from-slate-200/50 via-transparent to-slate-300/30 pointer-events-none z-0"></div>
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-600/5 rounded-full blur-[180px] pointer-events-none"></div>
+    <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-600/5 rounded-full blur-[180px] pointer-events-none"></div>
 
-    <div id="app-root" class="w-full h-full flex flex-col justify-between relative z-10 p-6">
+    <div id="app-root" class="w-full min-h-screen flex flex-col justify-between relative z-10 p-6 space-y-8">
         
-        <header class="w-full flex justify-between items-start pointer-events-none">
+        <header class="w-full flex justify-between items-start pointer-events-none shrink-0">
             <div class="flex items-center space-x-4 p-4 rounded-lg platinum-panel">
                 <div class="relative flex items-center justify-center w-12 h-12 bg-slate-100 border border-slate-300 rounded-md overflow-hidden shadow-inner">
                     <div class="absolute w-full h-[1px] bg-slate-300"></div>
@@ -92,11 +99,11 @@
             </div>
         </header>
 
-        <div id="gateway-stage" class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center my-auto space-y-12 transition-all duration-1000 ease-in-out">
+        <div id="gateway-stage" class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center space-y-6 my-auto pt-4 transition-all duration-1000 ease-in-out">
             
-            <div class="w-full text-center space-y-3 min-h-[64px]">
+            <div class="w-full text-center space-y-2 min-h-[48px]">
                 <div class="text-xs uppercase tracking-widest text-slate-400 font-bold">System Status Pipeline</div>
-                <h2 id="typing-engine" class="text-xl md:text-2xl font-normal text-slate-900 font-mono tracking-tight max-w-3xl mx-auto h-16 cursor-blink"></h2>
+                <h2 id="typing-engine" class="text-lg md:text-xl font-normal text-slate-900 font-mono tracking-tight max-w-3xl mx-auto h-12 cursor-blink"></h2>
             </div>
 
             <div class="w-full max-w-2xl platinum-panel rounded shadow-xl overflow-hidden relative crimson-glow-input border border-slate-300 transition-all duration-500">
@@ -134,109 +141,126 @@
                     </button>
                 </form>
             </div>
-
         </div>
-        <div id="features-matrix" class="w-full max-w-6xl mx-auto mt-20 mb-10 transition-all duration-1000">
-            <div class="flex flex-col space-y-8">
+
+        <div id="features-matrix" class="w-full max-w-6xl mx-auto pt-4 pb-6 transition-all duration-1000">
+            <div class="flex flex-col space-y-6">
+                
                 <div class="flex items-center space-x-4 px-2">
                     <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
-                    <h3 class="text-[11px] font-bold tracking-[0.3em] text-slate-400 uppercase tech-font">System_Capabilities_Matrix</h3>
+                    <h3 class="text-[10px] font-bold tracking-[0.3em] text-slate-400 uppercase tech-font">System_Capabilities_Matrix</h3>
                     <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     
-                    <div class="platinum-panel group hover:border-red-700/30 transition-all duration-500 p-6 relative overflow-hidden flex flex-col justify-between h-48 cursor-default">
-                        <div class="absolute -right-4 -top-4 w-20 h-20 bg-slate-100 rounded-full group-hover:bg-red-50 transition-colors duration-500 flex items-center justify-center">
-                            <svg class="w-8 h-8 text-slate-300 group-hover:text-red-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    <div class="platinum-panel group hover:border-red-700/30 transition-all duration-300 p-5 relative overflow-hidden flex flex-col justify-between h-36 cursor-default">
+                        <div class="absolute -right-4 -top-4 w-16 h-16 bg-slate-100 rounded-full group-hover:bg-red-50 transition-colors duration-300 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-slate-400 group-hover:text-red-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                             </svg>
                         </div>
-                        <div class="relative z-10">
-                            <span class="text-[9px] font-bold text-red-700 font-mono tracking-widest uppercase">Engine_01</span>
-                            <h4 class="text-sm font-bold text-slate-900 mt-1 uppercase tracking-tight">Neural Correlation</h4>
-                            <p class="text-[10px] text-slate-500 mt-2 leading-relaxed font-medium">Advanced pattern matching across distributed deep-web nodes for real-time threat actor tracking.</p>
+                        <div class="relative z-10 max-w-[82%]">
+                            <span class="text-[8px] font-bold text-red-700 font-mono tracking-widest uppercase">Engine_01</span>
+                            <h4 class="text-xs font-bold text-slate-900 mt-0.5 uppercase tracking-tight">Neural Correlation</h4>
+                            <p class="text-[10px] text-slate-500 mt-1.5 leading-normal font-medium">Advanced pattern matching across distributed deep-web nodes for real-time threat tracking.</p>
                         </div>
-                        <div class="flex items-center space-x-2 opacity-50 group-hover:opacity-100 transition-opacity">
-                            <div class="h-1 w-8 bg-red-700"></div>
-                            <span class="text-[9px] font-bold text-slate-400 font-mono italic">ACTIVE_PROCESS</span>
+                        <div class="flex items-center space-x-2 opacity-40 group-hover:opacity-100 transition-opacity">
+                            <div class="h-0.5 w-6 bg-red-700"></div>
+                            <span class="text-[8px] font-bold text-slate-400 font-mono italic">ACTIVE_PROCESS</span>
                         </div>
                     </div>
 
-                    <div class="platinum-panel group hover:border-slate-900 transition-all duration-500 p-6 relative overflow-hidden flex flex-col justify-between h-48 cursor-default">
-                        <div class="absolute -right-4 -top-4 w-20 h-20 bg-slate-100 rounded-full group-hover:bg-slate-200 transition-colors duration-500 flex items-center justify-center">
-                            <svg class="w-8 h-8 text-slate-300 group-hover:text-slate-900 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    <div class="platinum-panel group hover:border-slate-900/30 transition-all duration-300 p-5 relative overflow-hidden flex flex-col justify-between h-36 cursor-default">
+                        <div class="absolute -right-4 -top-4 w-16 h-16 bg-slate-100 rounded-full group-hover:bg-slate-200 transition-colors duration-300 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-slate-400 group-hover:text-slate-900 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </div>
-                        <div class="relative z-10">
-                            <span class="text-[9px] font-bold text-slate-500 font-mono tracking-widest uppercase">Engine_02</span>
-                            <h4 class="text-sm font-bold text-slate-900 mt-1 uppercase tracking-tight">OSINT Aggregator</h4>
-                            <p class="text-[10px] text-slate-500 mt-2 leading-relaxed font-medium">Unified data extraction from 500+ intelligence sources including social, domain, and server metadata.</p>
+                        <div class="relative z-10 max-w-[82%]">
+                            <span class="text-[8px] font-bold text-slate-500 font-mono tracking-widest uppercase">Engine_02</span>
+                            <h4 class="text-xs font-bold text-slate-900 mt-0.5 uppercase tracking-tight">OSINT Aggregator</h4>
+                            <p class="text-[10px] text-slate-500 mt-1.5 leading-normal font-medium">Unified data extraction from 500+ intelligence sources including social, domain, and server logs.</p>
                         </div>
-                        <div class="flex items-center space-x-2 opacity-50 group-hover:opacity-100 transition-opacity">
-                            <div class="h-1 w-8 bg-slate-900"></div>
-                            <span class="text-[9px] font-bold text-slate-400 font-mono italic">READY_STATE</span>
+                        <div class="flex items-center space-x-2 opacity-40 group-hover:opacity-100 transition-opacity">
+                            <div class="h-0.5 w-6 bg-slate-900"></div>
+                            <span class="text-[8px] font-bold text-slate-400 font-mono italic">READY_STATE</span>
                         </div>
                     </div>
 
-                    <div class="platinum-panel group hover:border-red-700/30 transition-all duration-500 p-6 relative overflow-hidden flex flex-col justify-between h-48 cursor-default">
-                        <div class="absolute -right-4 -top-4 w-20 h-20 bg-slate-100 rounded-full group-hover:bg-red-50 transition-colors duration-500 flex items-center justify-center">
-                            <svg class="w-8 h-8 text-slate-300 group-hover:text-red-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    <div class="platinum-panel group hover:border-red-700/30 transition-all duration-300 p-5 relative overflow-hidden flex flex-col justify-between h-36 cursor-default">
+                        <div class="absolute -right-4 -top-4 w-16 h-16 bg-slate-100 rounded-full group-hover:bg-red-50 transition-colors duration-300 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-slate-400 group-hover:text-red-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                             </svg>
                         </div>
-                        <div class="relative z-10">
-                            <span class="text-[9px] font-bold text-red-700 font-mono tracking-widest uppercase">Engine_03</span>
-                            <h4 class="text-sm font-bold text-slate-900 mt-1 uppercase tracking-tight">Forensic Vault</h4>
-                            <p class="text-[10px] text-slate-500 mt-2 leading-relaxed font-medium">Encrypted storage layer for digital evidence with automated SHA-256 integrity verification.</p>
+                        <div class="relative z-10 max-w-[82%]">
+                            <span class="text-[8px] font-bold text-red-700 font-mono tracking-widest uppercase">Engine_03</span>
+                            <h4 class="text-xs font-bold text-slate-900 mt-0.5 uppercase tracking-tight">Forensic Vault</h4>
+                            <p class="text-[10px] text-slate-500 mt-1.5 leading-normal font-medium">Encrypted storage layer for digital evidence with automated SHA-256 integrity verification.</p>
                         </div>
-                        <div class="flex items-center space-x-2 opacity-50 group-hover:opacity-100 transition-opacity">
-                            <div class="h-1 w-8 bg-red-700"></div>
-                            <span class="text-[9px] font-bold text-slate-400 font-mono italic">ENCRYPTED_LINK</span>
+                        <div class="flex items-center space-x-2 opacity-40 group-hover:opacity-100 transition-opacity">
+                            <div class="h-0.5 w-6 bg-red-700"></div>
+                            <span class="text-[8px] font-bold text-slate-400 font-mono italic">ENCRYPTED_LINK</span>
                         </div>
                     </div>
+
+                    <div class="platinum-panel group hover:border-slate-900/30 transition-all duration-300 p-5 relative overflow-hidden flex flex-col justify-between h-36 cursor-default">
+                        <div class="absolute -right-4 -top-4 w-16 h-16 bg-slate-100 rounded-full group-hover:bg-slate-200 transition-colors duration-300 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-slate-400 group-hover:text-slate-900 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                            </svg>
+                        </div>
+                        <div class="relative z-10 max-w-[82%]">
+                            <span class="text-[8px] font-bold text-slate-500 font-mono tracking-widest uppercase">Engine_04</span>
+                            <h4 class="text-xs font-bold text-slate-900 mt-0.5 uppercase tracking-tight">Malware Sandbox</h4>
+                            <p class="text-[10px] text-slate-500 mt-1.5 leading-normal font-medium">Isolated heuristic runtime checking for suspicious payloads, trackers, and zero-day execution patterns.</p>
+                        </div>
+                        <div class="flex items-center space-x-2 opacity-40 group-hover:opacity-100 transition-opacity">
+                            <div class="h-0.5 w-6 bg-slate-900"></div>
+                            <span class="text-[8px] font-bold text-slate-400 font-mono italic">VIRTUALIZED_NODE</span>
+                        </div>
+                    </div>
+
+                    <div class="platinum-panel group hover:border-red-700/30 transition-all duration-300 p-5 relative overflow-hidden flex flex-col justify-between h-36 cursor-default">
+                        <div class="absolute -right-4 -top-4 w-16 h-16 bg-slate-100 rounded-full group-hover:bg-red-50 transition-colors duration-300 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-slate-400 group-hover:text-red-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7v8a2 2 0 002 2h6M8 7a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path>
+                            </svg>
+                        </div>
+                        <div class="relative z-10 max-w-[82%]">
+                            <span class="text-[8px] font-bold text-red-700 font-mono tracking-widest uppercase">Engine_05</span>
+                            <h4 class="text-xs font-bold text-slate-900 mt-0.5 uppercase tracking-tight">Metadata Scraper</h4>
+                            <p class="text-[10px] text-slate-500 mt-1.5 leading-normal font-medium">Deep structural analysis of images, documents, and payloads to parse hidden EXIF and authorship artifacts.</p>
+                        </div>
+                        <div class="flex items-center space-x-2 opacity-40 group-hover:opacity-100 transition-opacity">
+                            <div class="h-0.5 w-6 bg-red-700"></div>
+                            <span class="text-[8px] font-bold text-slate-400 font-mono italic">PARSING_ARRAY</span>
+                        </div>
+                    </div>
+
+                    <div class="platinum-panel group hover:border-slate-900/30 transition-all duration-300 p-5 relative overflow-hidden flex flex-col justify-between h-36 cursor-default">
+                        <div class="absolute -right-4 -top-4 w-16 h-16 bg-slate-100 rounded-full group-hover:bg-slate-200 transition-colors duration-300 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-slate-400 group-hover:text-slate-900 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="relative z-10 max-w-[82%]">
+                            <span class="text-[8px] font-bold text-slate-500 font-mono tracking-widest uppercase">Engine_06</span>
+                            <h4 class="text-xs font-bold text-slate-900 mt-0.5 uppercase tracking-tight">Actor Profiling</h4>
+                            <p class="text-[10px] text-slate-500 mt-1.5 leading-normal font-medium">Cross-referencing leaked data structures, handles, and digital footprints to build target dossier profiles.</p>
+                        </div>
+                        <div class="flex items-center space-x-2 opacity-40 group-hover:opacity-100 transition-opacity">
+                            <div class="h-0.5 w-6 bg-slate-900"></div>
+                            <span class="text-[8px] font-bold text-slate-400 font-mono italic">STANDBY_SYNC</span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
 
-<style>
-    #app-root {
-        overflow-y: auto; /* Allow smooth scroll for bottom features */
-        scrollbar-width: none; /* Hide scrollbar for clean look */
-    }
-    #app-root::-webkit-scrollbar {
-        display: none;
-    }
-    #gateway-stage {
-        min-height: 80vh; /* Adjust height to fit screen */
-    }
-    /* Scroll Reveal Animation */
-    .reveal {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.8s ease-out;
-    }
-    .reveal.active {
-        opacity: 1;
-        transform: translateY(0);
-    }
-</style>
-
-<script>
-    window.addEventListener('scroll', () => {
-        const reveals = document.querySelectorAll('.platinum-panel');
-        reveals.forEach(el => {
-            const windowHeight = window.innerHeight;
-            const revealTop = el.getBoundingClientRect().top;
-            if (revealTop < windowHeight - 100) {
-                el.classList.add('active');
-            }
-        });
-    });
-</script>
-
-        <footer class="w-full flex justify-between items-center border-t border-slate-200 pt-4 text-[10px] text-slate-400 uppercase tracking-widest">
+        <footer class="w-full flex justify-between items-center border-t border-slate-200 pt-4 text-[10px] text-slate-400 uppercase tracking-widest shrink-0">
             <div>PERSISTENT DATA MEMORY LAYER: <span class="text-slate-600 font-medium">READY</span></div>
             <div>SECURITY ENCRYPTION: TLS_AES_256_GCM</div>
         </footer>
@@ -246,7 +270,6 @@
 
     </div>
 
-    
     <script>
         // 1. SYSTEM REAL-TIME CLOCK ENGINE
         function updateTimestamp() {
@@ -283,17 +306,16 @@
 
             let computedDelay = typingSpeed;
             if (!isDeleting && charIndex === currentPhrase.length) {
-                computedDelay = 3000; // Hold full sentence
+                computedDelay = 3000; 
                 isDeleting = true;
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
                 phraseIndex = (phraseIndex + 1) % intelPhrases.length;
-                computedDelay = 500; // Wait before next sentence
+                computedDelay = 500; 
             }
 
             setTimeout(streamTypeEffect, computedDelay);
         }
-        // Start typing line stream
         setTimeout(streamTypeEffect, 800);
 
         // 3. PERSISTENT ENTRY VERIFICATION & TRANSACTION STREAM
@@ -302,22 +324,23 @@
             const investigator = document.getElementById('investigator-name').value.trim().toUpperCase();
             if (!investigator) return;
 
-            // Database Session Object Schema Mapping
             const sessionPayload = {
                 operator: investigator,
                 timestamp: new Date().toISOString(),
                 token: btoa(investigator + Date.now()).substring(0, 16)
             };
 
-            // Storing to Database Memory Layer (localStorage proxy)
             localStorage.setItem('BOI_SESSION_SECURE_TOKEN', JSON.stringify(sessionPayload));
             
-            // Trigger Visual Transition Matrix
             const gateway = document.getElementById('gateway-stage');
+            const features = document.getElementById('features-matrix');
+            
             gateway.classList.add('opacity-0', 'scale-[0.97]');
+            features.classList.add('opacity-0', 'translate-y-8');
             
             setTimeout(() => {
                 gateway.classList.add('hidden');
+                features.classList.add('hidden');
                 console.log(`Database transaction committed for: ${investigator}`);
                 alert(`ACCESS GRANTED // OPERATOR SYSTEM INITIALIZED: ${investigator}\nReady for Module 2 Insertion.`);
             }, 1000);
