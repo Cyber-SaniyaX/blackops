@@ -147,6 +147,172 @@
 
     </div>
 
+    <div class="shrink-0 h-48 grid grid-cols-12 gap-3 mt-1 overflow-hidden">
+                
+                <div class="col-span-8 bg-white border border-slate-200 rounded p-3 shadow-sm flex flex-col overflow-hidden">
+                    <div class="border-b border-slate-100 pb-2 mb-2 flex justify-between items-center shrink-0">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.58 4 8 4s8-1.89 8-4V7M4 7c0 2.21 3.58 4 8 4s8-1.89 8-4M4 7c0-2.21 3.58-4 8-4s8 2.21 8 4m0 5c0 2.21-3.58 4-8 4s-8-1.89-8-4"></path>
+                            </svg>
+                            <span class="font-bold tracking-wider text-slate-800 uppercase text-[11px]">Centralized Operations Database Logs</span>
+                        </div>
+                        <span class="text-[9px] bg-slate-900 text-white px-1.5 py-0.5 rounded font-mono font-bold">SQLITE_PROXIED</span>
+                    </div>
+
+                    <div class="flex-1 overflow-y-auto rounded border border-slate-100">
+                        <table class="w-full text-left font-mono text-[10px] relative border-collapse">
+                            <thead class="sticky top-0 bg-slate-50 text-slate-500 uppercase tracking-wider text-[9px] border-b border-slate-200 z-10">
+                                <tr>
+                                    <th class="p-2 font-bold">Session Token</th>
+                                    <th class="p-2 font-bold">Investigator Name</th>
+                                    <th class="p-2 font-bold">Target Action / Indicator Hash</th>
+                                    <th class="p-2 font-bold">Database Sync Time</th>
+                                    <th class="p-2 font-bold text-right">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="db-audit-rows" class="divide-y divide-slate-100 text-slate-700">
+                                <tr class="hover:bg-slate-50/80 transition-colors">
+                                    <td class="p-2 text-slate-400">BOI_SEC_8f3c1a</td>
+                                    <td class="p-2 font-bold text-slate-900">SYSTEM_ROOT</td>
+                                    <td class="p-2 text-red-700 font-semibold">MALWARE_INTEGRITY_INDEX_CRON_INIT</td>
+                                    <td class="p-2 text-slate-400">06-10-2026 09:15:32</td>
+                                    <td class="p-2 text-right"><span class="bg-slate-100 text-slate-600 border border-slate-200 px-1 py-0.2 rounded text-[9px] font-bold">COMMITTED</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-span-4 bg-white border border-slate-200 rounded p-3 shadow-sm flex flex-col justify-between overflow-hidden">
+                    <div class="border-b border-slate-100 pb-1.5 flex justify-between items-center shrink-0">
+                        <span class="font-bold tracking-wider text-slate-800 uppercase text-[11px]">Engine Telemetry & Node Core</span>
+                        <span class="text-[9px] text-emerald-700 font-bold bg-emerald-50 border border-emerald-100 px-1 rounded animate-pulse">ACTIVE</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 my-auto font-mono text-[10px]">
+                        <div class="bg-slate-50 p-1.5 border border-slate-200 rounded">
+                            <div class="text-slate-400 text-[9px] uppercase font-bold">CPU Core Load</div>
+                            <div class="flex items-center justify-between mt-0.5">
+                                <span class="font-bold text-slate-900" id="telemetry-cpu">14.2%</span>
+                                <div class="w-12 bg-slate-200 h-1 rounded overflow-hidden">
+                                    <div class="bg-slate-800 h-full w-[14%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-1.5 border border-slate-200 rounded">
+                            <div class="text-slate-400 text-[9px] uppercase font-bold">RAM Allocation</div>
+                            <div class="flex items-center justify-between mt-0.5">
+                                <span class="font-bold text-slate-900">3.41 GB / 8</span>
+                                <span class="text-slate-400 text-[9px]">42%</span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-1.5 border border-slate-200 rounded">
+                            <div class="text-slate-400 text-[9px] uppercase font-bold">Data IOPS Stream</div>
+                            <div class="font-bold text-emerald-700 mt-0.5">742.8 Req/s</div>
+                        </div>
+                        <div class="bg-slate-50 p-1.5 border border-slate-200 rounded">
+                            <div class="text-slate-400 text-[9px] uppercase font-bold">Audit Encryption</div>
+                            <div class="font-bold text-slate-800 mt-0.5">SHA256_HASHED</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div> </div>
+
+    <script>
+        // 1. EXTENSION FOR PERSISTENT LOGGING INTERCEPTOR ENGINE
+        // Existing coreEntryHandler optimization inside your main layout to sync entry logs
+        window.addEventListener('DOMContentLoaded', () => {
+            // Monitor dynamic telemetry fluctuations
+            setInterval(() => {
+                const randomCpu = (Math.random() * 25 + 5).toFixed(1);
+                const cpuDisplay = document.getElementById('telemetry-cpu');
+                if(cpuDisplay) cpuDisplay.innerText = `${randomCpu}%`;
+            }, 2500);
+
+            // Hook into AI Follow-up input system execution
+            const aiInput = document.getElementById('ai-assistant-prompt');
+            if(aiInput) {
+                aiInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' && this.value.trim()) {
+                        executeAiFollowUpChat(this.value.trim());
+                        this.value = '';
+                    }
+                });
+            }
+        });
+
+        // Intercept triggerIntelligenceScan tool context inside database layout
+        const baseScanFunction = window.triggerIntelligenceScan;
+        window.triggerIntelligenceScan = function() {
+            // Call baseline engine mapping UI
+            if (typeof baseScanFunction === 'function') baseScanFunction();
+            
+            const targetVal = document.getElementById('workspace-intel-input').value.trim().toUpperCase();
+            if(!targetVal) return;
+
+            // Extract cached investigator name context
+            const cacheRaw = localStorage.getItem('BOI_SESSION_SECURE_TOKEN');
+            let currentOp = "ANALYST";
+            let tokenContext = "BOI_SEC_GEN";
+            if(cacheRaw) {
+                const parsed = JSON.parse(cacheRaw);
+                currentOp = parsed.operator;
+                tokenContext = `BOI_SEC_${parsed.token.substring(0,6)}`;
+            }
+
+            // Real-Time Database Append Simulation Logic
+            const dbTableBody = document.getElementById('db-audit-rows');
+            const dateObj = new Date();
+            const formattedTime = `${dateObj.getMonth()+1}-${dateObj.getDate()}-2026 ${dateObj.toTimeString().split(' ')[0]}`;
+
+            const newRowHtml = `
+                <tr class="hover:bg-slate-50/80 transition-colors bg-red-50/20 font-medium">
+                    <td class="p-2 text-slate-500">${tokenContext}</td>
+                    <td class="p-2 font-bold text-slate-900">${currentOp}</td>
+                    <td class="p-2 text-red-800">${targetVal} [DEEP_SCAN]</td>
+                    <td class="p-2 text-slate-500">${formattedTime}</td>
+                    <td class="p-2 text-right"><span class="bg-red-100 text-red-800 border border-red-200 px-1 py-0.2 rounded text-[9px] font-bold">COMMITTED</span></td>
+                </tr>
+            `;
+            dbTableBody.innerHTML = newRowHtml + dbTableBody.innerHTML;
+        };
+
+        // 2. AI LIVE CHAT INTERACTION PARSER FLOW
+        function executeAiFollowUpChat(queryText) {
+            const chatScreen = document.getElementById('ai-chat-screen');
+            const pulse = document.getElementById('ai-status-pulse');
+            
+            // Append User Question Context
+            chatScreen.innerHTML += `
+                <div class="bg-slate-100 p-2 border border-slate-200 rounded text-slate-700 font-sans mt-2 ml-4">
+                    <span class="font-mono text-[10px] text-slate-500 uppercase font-bold block mb-1">Operator Inquiry //</span>
+                    ${queryText.toUpperCase()}
+                </div>
+            `;
+            chatScreen.scrollTop = chatScreen.scrollHeight;
+
+            // Trigger Thinking State
+            pulse.className = "w-2 h-2 rounded-full bg-red-600 animate-ping";
+
+            setTimeout(() => {
+                pulse.className = "w-2 h-2 rounded-full bg-emerald-600";
+                chatScreen.innerHTML += `
+                    <div class="bg-slate-50 p-2.5 border border-slate-200 rounded text-slate-600 font-sans mt-2">
+                        <span class="font-mono text-[10px] text-slate-400 uppercase font-bold block mb-1">AI Assistant Node //</span>
+                        Query analytical correlation complete. Target metric parsed against open threat indicators. Database records locked under active audit schema. No secondary exploit vector identified.
+                    </div>
+                `;
+                chatScreen.scrollTop = chatScreen.scrollHeight;
+            }, 900);
+        }
+    </script>
+</body>
+</html>
+
+
     <script>
         // 1. SYSTEM REAL-TIME CLOCK ENGINE
         function updateTimestamp() {
