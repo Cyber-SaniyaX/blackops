@@ -73,7 +73,7 @@
     <div class="absolute inset-0 bg-gradient-to-tr from-slate-200/50 via-transparent to-slate-300/30 pointer-events-none z-0"></div>
     <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-600/5 rounded-full blur-[180px] pointer-events-none"></div>
 
-    <div id="app-root" class="w-full min-h-screen flex flex-col justify-between relative z-10 p-6 space-y-5">
+    <div id="app-root" class="w-full min-h-screen flex flex-col justify-between relative z-10 p-6 space-y-6">
         
         <header class="w-full flex justify-between items-start pointer-events-none shrink-0">
             <div class="flex items-center space-x-4 p-4 rounded-lg platinum-panel">
@@ -99,15 +99,15 @@
             </div>
         </header>
 
-        <div id="gateway-stage" class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center space-y-3 pt-1 transition-all duration-1000 ease-in-out shrink-0">
+        <div id="gateway-stage" class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center space-y-4 pt-2 transition-all duration-1000 ease-in-out shrink-0">
             
-            <div class="w-full text-center space-y-1 min-h-[36px]">
+            <div class="w-full text-center space-y-1 min-h-[40px]">
                 <div class="text-xs uppercase tracking-widest text-slate-400 font-bold">System Status Pipeline</div>
-                <h2 id="typing-engine" class="text-sm md:text-base font-normal text-slate-900 font-mono tracking-tight max-w-3xl mx-auto h-8 cursor-blink"></h2>
+                <h2 id="typing-engine" class="text-base md:text-lg font-normal text-slate-900 font-mono tracking-tight max-w-3xl mx-auto h-10 cursor-blink"></h2>
             </div>
 
             <div class="w-full max-w-2xl platinum-panel rounded shadow-xl overflow-hidden relative crimson-glow-input border border-slate-300 transition-all duration-500">
-                <div class="bg-slate-100/80 border-b border-slate-200 px-4 py-1.5 flex items-center justify-between">
+                <div class="bg-slate-100/80 border-b border-slate-200 px-4 py-2 flex items-center justify-between">
                     <div class="flex items-center space-x-2">
                         <div class="w-1.5 h-1.5 bg-red-700 rounded-full animate-ping"></div>
                         <span class="text-[10px] uppercase tracking-wider text-slate-600 font-bold">Authorization Terminal Required</span>
@@ -115,7 +115,7 @@
                     <span class="text-[9px] text-slate-400 font-mono">ID_AUTH_V4</span>
                 </div>
 
-                <form id="access-form" onsubmit="executeSecureEntry(event)" class="p-3 flex flex-col sm:flex-row items-stretch gap-3">
+                <form id="access-form" onsubmit="executeSecureEntry(event)" class="p-4 flex flex-col sm:flex-row items-stretch gap-3">
                     <div class="relative flex-1">
                         <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
                             <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Investigator //</span>
@@ -126,13 +126,13 @@
                             required
                             autocomplete="off"
                             placeholder="ENTER CURRENT CALLSIGN OR NAME..." 
-                            class="w-full bg-white border border-slate-300 rounded px-3 py-2 pl-24 font-mono text-xs text-slate-900 placeholder-slate-300 tracking-widest focus:outline-none focus:border-slate-400 transition-all uppercase shadow-inner"
+                            class="w-full bg-white border border-slate-300 rounded px-3 py-2.5 pl-24 font-mono text-xs text-slate-900 placeholder-slate-300 tracking-widest focus:outline-none focus:border-slate-400 transition-all uppercase shadow-inner"
                         >
                     </div>
 
                     <button 
                         type="submit" 
-                        class="px-6 bg-slate-900 hover:bg-red-800 text-white font-mono text-xs font-bold uppercase tracking-widest transition-all duration-300 border border-slate-900 hover:border-red-700 cursor-pointer flex items-center justify-center space-x-2 rounded h-10 sm:h-auto shadow"
+                        class="px-6 bg-slate-900 hover:bg-red-800 text-white font-mono text-xs font-bold uppercase tracking-widest transition-all duration-300 border border-slate-900 hover:border-red-700 cursor-pointer flex items-center justify-center space-x-2 rounded h-11 sm:h-auto shadow"
                     >
                         <span>GO_INSIDE_</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -143,8 +143,8 @@
             </div>
         </div>
 
-        <div id="features-matrix" class="w-full max-w-6xl mx-auto pt-1 transition-all duration-1000 shrink-0">
-            <div class="flex flex-col space-y-3">
+        <div id="features-matrix" class="w-full max-w-6xl mx-auto pt-2 transition-all duration-1000 shrink-0">
+            <div class="flex flex-col space-y-4">
                 
                 <div class="flex items-center space-x-4 px-2">
                     <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
@@ -152,105 +152,105 @@
                     <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                    <div class="platinum-panel group hover:border-red-700/30 transition-all duration-300 p-4 relative overflow-hidden flex flex-col justify-between h-28 cursor-default">
-                        <div class="absolute -right-4 -top-4 w-12 h-12 bg-slate-100 rounded-full group-hover:bg-red-50 transition-colors duration-300 flex items-center justify-center">
-                            <svg class="w-4 h-4 text-slate-400 group-hover:text-red-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="platinum-panel group hover:border-red-700/30 transition-all duration-300 p-4 relative overflow-hidden flex flex-col justify-between h-32 cursor-default">
+                        <div class="absolute -right-4 -top-4 w-14 h-14 bg-slate-100 rounded-full group-hover:bg-red-50 transition-colors duration-300 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-slate-400 group-hover:text-red-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                             </svg>
                         </div>
                         <div class="relative z-10 max-w-[85%]">
                             <span class="text-[8px] font-bold text-red-700 font-mono tracking-widest uppercase">Engine_01</span>
                             <h4 class="text-xs font-bold text-slate-900 mt-0.5 uppercase tracking-tight">Neural Correlation</h4>
-                            <p class="text-[9px] text-slate-500 mt-0.5 leading-tight font-medium">Advanced pattern matching across distributed deep-web nodes for target tracking.</p>
+                            <p class="text-[10px] text-slate-500 mt-1 leading-tight font-medium">Advanced pattern matching across distributed deep-web nodes for real-time threat tracking.</p>
                         </div>
                         <div class="flex items-center space-x-2 opacity-40 group-hover:opacity-100 transition-opacity">
-                            <div class="h-0.5 w-4 bg-red-700"></div>
+                            <div class="h-0.5 w-6 bg-red-700"></div>
                             <span class="text-[8px] font-bold text-slate-400 font-mono italic">ACTIVE_PROCESS</span>
                         </div>
                     </div>
 
-                    <div class="platinum-panel group hover:border-slate-900/30 transition-all duration-300 p-4 relative overflow-hidden flex flex-col justify-between h-28 cursor-default">
-                        <div class="absolute -right-4 -top-4 w-12 h-12 bg-slate-100 rounded-full group-hover:bg-slate-200 transition-colors duration-300 flex items-center justify-center">
-                            <svg class="w-4 h-4 text-slate-400 group-hover:text-slate-900 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="platinum-panel group hover:border-slate-900/30 transition-all duration-300 p-4 relative overflow-hidden flex flex-col justify-between h-32 cursor-default">
+                        <div class="absolute -right-4 -top-4 w-14 h-14 bg-slate-100 rounded-full group-hover:bg-slate-200 transition-colors duration-300 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-slate-400 group-hover:text-slate-900 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </div>
                         <div class="relative z-10 max-w-[85%]">
                             <span class="text-[8px] font-bold text-slate-500 font-mono tracking-widest uppercase">Engine_02</span>
                             <h4 class="text-xs font-bold text-slate-900 mt-0.5 uppercase tracking-tight">OSINT Aggregator</h4>
-                            <p class="text-[9px] text-slate-500 mt-0.5 leading-tight font-medium">Unified data extraction from 500+ intelligence pipelines and public metadata nodes.</p>
+                            <p class="text-[10px] text-slate-500 mt-1 leading-tight font-medium">Unified data extraction from 500+ intelligence sources including server logs.</p>
                         </div>
                         <div class="flex items-center space-x-2 opacity-40 group-hover:opacity-100 transition-opacity">
-                            <div class="h-0.5 w-4 bg-slate-900"></div>
+                            <div class="h-0.5 w-6 bg-slate-900"></div>
                             <span class="text-[8px] font-bold text-slate-400 font-mono italic">READY_STATE</span>
                         </div>
                     </div>
 
-                    <div class="platinum-panel group hover:border-red-700/30 transition-all duration-300 p-4 relative overflow-hidden flex flex-col justify-between h-28 cursor-default">
-                        <div class="absolute -right-4 -top-4 w-12 h-12 bg-slate-100 rounded-full group-hover:bg-red-50 transition-colors duration-300 flex items-center justify-center">
-                            <svg class="w-4 h-4 text-slate-400 group-hover:text-red-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="platinum-panel group hover:border-red-700/30 transition-all duration-300 p-4 relative overflow-hidden flex flex-col justify-between h-32 cursor-default">
+                        <div class="absolute -right-4 -top-4 w-14 h-14 bg-slate-100 rounded-full group-hover:bg-red-50 transition-colors duration-300 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-slate-400 group-hover:text-red-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                             </svg>
                         </div>
                         <div class="relative z-10 max-w-[85%]">
                             <span class="text-[8px] font-bold text-red-700 font-mono tracking-widest uppercase">Engine_03</span>
                             <h4 class="text-xs font-bold text-slate-900 mt-0.5 uppercase tracking-tight">Forensic Vault</h4>
-                            <p class="text-[9px] text-slate-500 mt-0.5 leading-tight font-medium">Encrypted storage layer for digital evidence with automated SHA-256 integrity logs.</p>
+                            <p class="text-[10px] text-slate-500 mt-1 leading-tight font-medium">Encrypted storage layer for digital evidence with automated SHA-256 integrity verification.</p>
                         </div>
                         <div class="flex items-center space-x-2 opacity-40 group-hover:opacity-100 transition-opacity">
-                            <div class="h-0.5 w-4 bg-red-700"></div>
+                            <div class="h-0.5 w-6 bg-red-700"></div>
                             <span class="text-[8px] font-bold text-slate-400 font-mono italic">ENCRYPTED_LINK</span>
                         </div>
                     </div>
 
-                    <div class="platinum-panel group hover:border-slate-900/30 transition-all duration-300 p-4 relative overflow-hidden flex flex-col justify-between h-28 cursor-default">
-                        <div class="absolute -right-4 -top-4 w-12 h-12 bg-slate-100 rounded-full group-hover:bg-slate-200 transition-colors duration-300 flex items-center justify-center">
-                            <svg class="w-4 h-4 text-slate-400 group-hover:text-slate-900 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="platinum-panel group hover:border-slate-900/30 transition-all duration-300 p-4 relative overflow-hidden flex flex-col justify-between h-32 cursor-default">
+                        <div class="absolute -right-4 -top-4 w-14 h-14 bg-slate-100 rounded-full group-hover:bg-slate-200 transition-colors duration-300 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-slate-400 group-hover:text-slate-900 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
                             </svg>
                         </div>
                         <div class="relative z-10 max-w-[85%]">
                             <span class="text-[8px] font-bold text-slate-500 font-mono tracking-widest uppercase">Engine_04</span>
                             <h4 class="text-xs font-bold text-slate-900 mt-0.5 uppercase tracking-tight">Malware Sandbox</h4>
-                            <p class="text-[9px] text-slate-500 mt-0.5 leading-tight font-medium">Isolated runtime checking for zero-day payloads, trackers, and malicious scripts.</p>
+                            <p class="text-[10px] text-slate-500 mt-1 leading-tight font-medium">Isolated heuristic runtime checking for suspicious payloads, trackers, and execution patterns.</p>
                         </div>
                         <div class="flex items-center space-x-2 opacity-40 group-hover:opacity-100 transition-opacity">
-                            <div class="h-0.5 w-4 bg-slate-900"></div>
+                            <div class="h-0.5 w-6 bg-slate-900"></div>
                             <span class="text-[8px] font-bold text-slate-400 font-mono italic">VIRTUALIZED_NODE</span>
                         </div>
                     </div>
 
-                    <div class="platinum-panel group hover:border-red-700/30 transition-all duration-300 p-4 relative overflow-hidden flex flex-col justify-between h-28 cursor-default">
-                        <div class="absolute -right-4 -top-4 w-12 h-12 bg-slate-100 rounded-full group-hover:bg-red-50 transition-colors duration-300 flex items-center justify-center">
-                            <svg class="w-4 h-4 text-slate-400 group-hover:text-red-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="platinum-panel group hover:border-red-700/30 transition-all duration-300 p-4 relative overflow-hidden flex flex-col justify-between h-32 cursor-default">
+                        <div class="absolute -right-4 -top-4 w-14 h-14 bg-slate-100 rounded-full group-hover:bg-red-50 transition-colors duration-300 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-slate-400 group-hover:text-red-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7v8a2 2 0 002 2h6M8 7a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path>
                             </svg>
                         </div>
                         <div class="relative z-10 max-w-[85%]">
                             <span class="text-[8px] font-bold text-red-700 font-mono tracking-widest uppercase">Engine_05</span>
                             <h4 class="text-xs font-bold text-slate-900 mt-0.5 uppercase tracking-tight">Metadata Scraper</h4>
-                            <p class="text-[9px] text-slate-500 mt-0.5 leading-tight font-medium">Deep structural analysis of images to parse hidden EXIF and authorship timestamps.</p>
+                            <p class="text-[10px] text-slate-500 mt-1 leading-tight font-medium">Deep structural analysis of images and payloads to parse hidden EXIF and authorship artifacts.</p>
                         </div>
                         <div class="flex items-center space-x-2 opacity-40 group-hover:opacity-100 transition-opacity">
-                            <div class="h-0.5 w-4 bg-red-700"></div>
+                            <div class="h-0.5 w-6 bg-red-700"></div>
                             <span class="text-[8px] font-bold text-slate-400 font-mono italic">PARSING_ARRAY</span>
                         </div>
                     </div>
 
-                    <div class="platinum-panel group hover:border-slate-900/30 transition-all duration-300 p-4 relative overflow-hidden flex flex-col justify-between h-28 cursor-default">
-                        <div class="absolute -right-4 -top-4 w-12 h-12 bg-slate-100 rounded-full group-hover:bg-slate-200 transition-colors duration-300 flex items-center justify-center">
-                            <svg class="w-4 h-4 text-slate-400 group-hover:text-slate-900 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="platinum-panel group hover:border-slate-900/30 transition-all duration-300 p-4 relative overflow-hidden flex flex-col justify-between h-32 cursor-default">
+                        <div class="absolute -right-4 -top-4 w-14 h-14 bg-slate-100 rounded-full group-hover:bg-slate-200 transition-colors duration-300 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-slate-400 group-hover:text-slate-900 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                             </svg>
                         </div>
                         <div class="relative z-10 max-w-[85%]">
                             <span class="text-[8px] font-bold text-slate-500 font-mono tracking-widest uppercase">Engine_06</span>
                             <h4 class="text-xs font-bold text-slate-900 mt-0.5 uppercase tracking-tight">Actor Profiling</h4>
-                            <p class="text-[9px] text-slate-500 mt-0.5 leading-tight font-medium">Cross-referencing leaks and footprints to map threat actor dossiers instantaneously.</p>
+                            <p class="text-[10px] text-slate-500 mt-1 leading-tight font-medium">Cross-referencing leaked data structures and footprints to build target dossier profiles.</p>
                         </div>
                         <div class="flex items-center space-x-2 opacity-40 group-hover:opacity-100 transition-opacity">
-                            <div class="h-0.5 w-4 bg-slate-900"></div>
+                            <div class="h-0.5 w-6 bg-slate-900"></div>
                             <span class="text-[8px] font-bold text-slate-400 font-mono italic">STANDBY_SYNC</span>
                         </div>
                     </div>
@@ -258,8 +258,8 @@
             </div>
         </div>
 
-        <div id="lea-operations-desk" class="w-full max-w-6xl mx-auto pt-1 transition-all duration-1000 shrink-0">
-            <div class="flex flex-col space-y-3">
+        <div id="lea-operations-desk" class="w-full max-w-6xl mx-auto pt-2 pb-4 transition-all duration-1000 shrink-0">
+            <div class="flex flex-col space-y-4">
                 
                 <div class="flex items-center space-x-4 px-2">
                     <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
@@ -267,48 +267,54 @@
                     <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-3">
-                    <div class="lg:col-span-7 platinum-panel border-l-2 border-l-red-800 p-4 flex flex-col justify-between h-32 relative overflow-hidden group">
-                        <div class="absolute top-2 right-2 font-mono text-[8px] text-slate-300 select-none group-hover:text-red-700/10 transition-colors">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                    
+                    <div class="lg:col-span-7 platinum-panel border-l-2 border-l-red-800 p-5 flex flex-col justify-between h-44 relative overflow-hidden group">
+                        <div class="absolute top-2 right-2 font-mono text-[9px] text-slate-300 select-none group-hover:text-red-700/10 transition-colors">
                             [SYS_REF: LEA_E-WARRANT_V9]
                         </div>
-                        <div class="space-y-1">
+                        
+                        <div class="space-y-2">
                             <div class="flex items-center space-x-2">
                                 <span class="w-1.5 h-1.5 bg-red-700 rounded-full animate-pulse"></span>
                                 <span class="text-[9px] font-mono font-bold uppercase text-slate-400 tracking-wider">Sub-Layer Stream</span>
-                                <h4 class="text-xs font-bold text-slate-900 uppercase tracking-tight">Automated LEA Subpoena & Intercept Routing</h4>
+                                <h4 class="text-sm font-bold text-slate-900 uppercase tracking-tight">Automated LEA Subpoena & Intercept Routing</h4>
                             </div>
-                            <p class="text-[10px] text-slate-500 leading-tight font-medium max-w-[92%]">
-                                Generates cross-jurisdictional compliant infrastructure logs. Maps threats directly to court-admissible forensic packets.
+                            <p class="text-[10px] text-slate-500 leading-relaxed font-medium max-w-[90%]">
+                                Generates cross-jurisdictional compliant infrastructure request logs. Directly maps verified active cyber threats to court-admissible forensic artifacts instantly.
                             </p>
                         </div>
-                        <div class="grid grid-cols-3 gap-2 border-t border-slate-200/60 pt-2 text-[9px] font-mono">
+
+                        <div class="grid grid-cols-3 gap-2 border-t border-slate-200/60 pt-3 text-[10px] font-mono">
                             <div>
-                                <span class="text-slate-400 block uppercase text-[7px] font-bold">Warrant Status</span>
-                                <span class="text-emerald-700 font-bold tracking-tight">● READY_TO_PARSE</span>
+                                <span class="text-slate-400 block uppercase text-[8px] font-bold">Warrant Status</span>
+                                <span class="text-emerald-700 font-bold tracking-tight flex items-center space-x-1">
+                                    <span>●</span> <span>READY_TO_PARSE</span>
+                                </span>
                             </div>
                             <div>
-                                <span class="text-slate-400 block uppercase text-[7px] font-bold">Node Handshake</span>
+                                <span class="text-slate-400 block uppercase text-[8px] font-bold">Node Handshake</span>
                                 <span class="text-slate-800 font-bold">SECURE_TLS_G2</span>
                             </div>
                             <div>
-                                <span class="text-slate-400 block uppercase text-[7px] font-bold">Chain Custody</span>
-                                <span class="text-slate-900 font-bold bg-slate-100 border border-slate-200 px-1 rounded text-[8px]">SHA256_LOCKED</span>
+                                <span class="text-slate-400 block uppercase text-[8px] font-bold">Chain Custody</span>
+                                <span class="text-slate-900 font-bold bg-slate-100 border border-slate-200 px-1 rounded text-[9px]">SHA256_LOCKED</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="lg:col-span-5 platinum-panel border-l-2 border-l-slate-900 p-4 flex flex-col justify-between h-32 relative overflow-hidden group">
-                        <div class="flex items-center justify-between border-b border-slate-200/60 pb-1.5">
+                    <div class="lg:col-span-5 platinum-panel border-l-2 border-l-slate-900 p-5 flex flex-col justify-between h-44 relative overflow-hidden group">
+                        <div class="flex items-center justify-between border-b border-slate-200/60 pb-2">
                             <div class="flex items-center space-x-2">
-                                <svg class="w-3.5 h-3.5 text-slate-800 animate-spin [animation-duration:12s]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-slate-800 animate-spin [animation-duration:12s]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                                 </svg>
-                                <span class="font-bold tracking-wider text-slate-900 uppercase text-[10px] tech-font">Live Monitor Matrix</span>
+                                <span class="font-bold tracking-wider text-slate-900 uppercase text-[11px] tech-font">Live Monitor Matrix</span>
                             </div>
                             <span class="text-[8px] bg-slate-900 text-white px-1 rounded font-mono font-bold">REAL_TIME</span>
                         </div>
-                        <div class="space-y-1 my-auto font-mono text-[9px] text-slate-600">
+
+                        <div class="space-y-1.5 my-auto font-mono text-[10px] text-slate-600">
                             <div class="flex justify-between items-center bg-slate-50 p-1 rounded border border-slate-200/50">
                                 <span>[+] INTERPOL_RED_NOTICE_API</span>
                                 <span class="text-emerald-700 font-bold">CONNECTED</span>
@@ -318,23 +324,18 @@
                                 <span class="text-red-700 font-bold animate-pulse">STREAMING</span>
                             </div>
                         </div>
-                        <div class="text-[8px] text-slate-400 font-mono pt-1 flex justify-between items-center">
+
+                        <div class="text-[9px] text-slate-400 font-mono tracking-normal pt-1 flex justify-between items-center">
                             <span>PLATFORM VER: v4.1.0-PRO</span>
                             <span class="text-slate-500 font-bold">[ ENFORCEMENT ENABLED ]</span>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
 
-        <div id="target-dossier-hub" class="w-full max-w-6xl mx-auto pt-1 pb-2 transition-all duration-1000 shrink-0">
-            <div class="flex flex-col space-y-3">
-                
-                                </div>
-            </div>
-        </div>
-
-        <footer class="w-full flex justify-between items-center border-t border-slate-200 pt-3 text-[10px] text-slate-400 uppercase tracking-widest shrink-0">
+        <footer class="w-full flex justify-between items-center border-t border-slate-200 pt-4 text-[10px] text-slate-400 uppercase tracking-widest shrink-0">
             <div>PERSISTENT DATA MEMORY LAYER: <span class="text-slate-600 font-medium">READY</span></div>
             <div>SECURITY ENCRYPTION: TLS_AES_256_GCM</div>
         </footer>
@@ -409,18 +410,15 @@
             const gateway = document.getElementById('gateway-stage');
             const features = document.getElementById('features-matrix');
             const leaDesk = document.getElementById('lea-operations-desk');
-            const dossierHub = document.getElementById('target-dossier-hub');
             
             gateway.classList.add('opacity-0', 'scale-[0.97]');
             features.classList.add('opacity-0', 'translate-y-8');
             leaDesk.classList.add('opacity-0', 'translate-y-8');
-            dossierHub.classList.add('opacity-0', 'translate-y-8');
             
             setTimeout(() => {
                 gateway.classList.add('hidden');
                 features.classList.add('hidden');
                 leaDesk.classList.add('hidden');
-                dossierHub.classList.add('hidden');
                 console.log(`Database transaction committed for: ${investigator}`);
                 alert(`ACCESS GRANTED // OPERATOR SYSTEM INITIALIZED: ${investigator}\nReady for Module 2 Insertion.`);
             }, 1000);
