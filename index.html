@@ -3,626 +3,741 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BLACKOPS INTEL — Core Command Gateway</title>
+    <title>BLACKOPS INTEL // NET_CON</title>
+    <!-- Tailwind CSS Engine -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;300;400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    
     <style>
-        body {
-            font-family: 'JetBrains Mono', monospace;
-            background: #eef1f6;
-        }
-        .tech-font {
-            font-family: 'Share Tech Mono', sans-serif;
-        }
-        /* Tactical Matte Grid Overlay */
-        .tactical-grid {
-            background-size: 30px 30px;
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+        
+        body { 
+            font-family: 'JetBrains Mono', monospace; 
+            background-color: #eef2f5;
             background-image: 
-                linear-gradient(to right, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
+                linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+            background-size: 20px 20px;
         }
-        /* Light Scanline Effect */
-        .scanline::after {
-            content: " ";
-            display: block;
+
+        .red-target-dot {
+            position: relative;
+        }
+        .red-target-dot::before {
+            content: '';
             position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(255, 255, 255, 0) 50%, rgba(15, 23, 42, 0.04) 50%);
-            z-index: 99;
-            background-size: 100% 4px;
-            pointer-events: none;
-        }
-        /* Ultra Premium Light Structural Panels */
-        .platinum-panel {
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(148, 163, 184, 0.25);
-            box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05);
-        }
-        .crimson-glow-input:focus-within {
-            box-shadow: 0 0 20px rgba(139, 0, 0, 0.12);
-            border-color: #8b0000;
-        }
-        .cursor-blink::after {
-            content: '|';
-            animation: blink 1s infinite;
-            color: #991b1b;
-            font-weight: bold;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        /* Custom layout scroll management */
-        #app-root {
-            overflow-y: auto;
-            scrollbar-width: none;
-        }
-        #app-root::-webkit-scrollbar {
-            display: none;
+            width: 8px;
+            height: 8px;
+            background-color: #ef4444;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 8px #ef4444;
         }
     </style>
 </head>
-<body class="min-h-screen w-screen text-slate-800 antialiased relative select-none scanline">
+<body class="text-slate-700 min-h-screen p-6 flex flex-col justify-between selection:bg-slate-900 selection:text-white">
 
-    <div class="absolute inset-0 tactical-grid pointer-events-none z-0"></div>
-    <div class="absolute inset-0 bg-gradient-to-tr from-slate-200/50 via-transparent to-slate-300/30 pointer-events-none z-0"></div>
-    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-600/5 rounded-full blur-[180px] pointer-events-none"></div>
-
-    <div id="app-root" class="w-full min-h-screen flex flex-col justify-between relative z-10 p-6 space-y-6">
-        
-        <header class="w-full flex justify-between items-start pointer-events-none shrink-0">
-            <div class="flex items-center space-x-4 p-4 rounded-lg platinum-panel">
-                <div class="relative flex items-center justify-center w-12 h-12 bg-slate-100 border border-slate-300 rounded-md overflow-hidden shadow-inner">
-                    <div class="absolute w-full h-[1px] bg-slate-300"></div>
-                    <div class="absolute h-full w-[1px] bg-slate-300"></div>
-                    <div class="w-3 h-3 bg-red-700 rounded-sm rotate-45 border border-red-500 animate-pulse"></div>
-                    <div class="absolute w-6 h-6 border border-red-800/20 rounded-full animate-spin [animation-duration:10s]"></div>
+    <!-- ==================== PERSISTENT PLATFORM HEADER ==================== -->
+    <header class="w-full flex justify-between items-start mb-8 select-none">
+        <div class="bg-white/80 backdrop-blur border border-slate-200/80 rounded px-4 py-3 flex items-center space-x-4 shadow-sm">
+            <div class="w-8 h-8 border border-dashed border-slate-300 rounded-full flex items-center justify-center red-target-dot"></div>
+            <div>
+                <div class="text-sm font-bold tracking-wider text-slate-900 flex items-center space-x-1.5">
+                    <span>BLACKOPS</span>
+                    <span class="text-red-600 font-extrabold font-sans italic text-xs px-1 border border-red-200 bg-red-50 rounded">INTEL</span>
+                    <span class="text-[9px] text-red-500 bg-red-100 px-1 rounded font-bold">NET_CON</span>
                 </div>
-                <div class="flex flex-col">
-                    <div class="flex items-center space-x-2">
-                        <span class="text-xl font-bold tracking-tighter text-slate-900 uppercase tech-font">Blackops <span class="text-red-700">Intel</span></span>
-                        <span class="text-[9px] px-1 bg-red-50 border border-red-200 text-red-700 font-bold rounded">NET_CON</span>
+                <div class="text-[9px] text-slate-400 font-medium tracking-widest uppercase mt-0.5">Digital Threat Analysis Platform</div>
+            </div>
+        </div>
+
+        <div class="bg-white/80 backdrop-blur border border-slate-200/80 rounded px-4 py-2.5 text-right text-[9px] font-medium tracking-wider space-y-0.5 shadow-sm">
+            <div><span class="text-slate-400">NODE:</span> <span class="text-slate-900 font-bold">BOI-STATION-4</span></div>
+            <div><span class="text-slate-400">SECURE_STREAM:</span> <span class="text-emerald-600 font-bold">ESTABLISHED</span></div>
+            <div><span class="text-slate-400">UTC:</span> <span class="text-slate-500 font-bold">13:07:34</span></div>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN CORE WORKSPACE ==================== -->
+    <main class="flex-1 w-full max-w-6xl mx-auto flex flex-col justify-center items-center">
+
+        <!-- ==================== STAGE 1: FIRST PAGE (EXACT UNTOUCHED TERMINAL GATEWAY) ==================== -->
+        <div id="gateway-stage" class="w-full transition-all duration-500 transform scale-100 opacity-100 space-y-8">
+            <div class="text-center space-y-1">
+                <div class="text-[10px] uppercase tracking-[0.25em] font-bold text-slate-400">System Status Pipeline</div>
+                <h2 class="text-sm md:text-base font-bold tracking-[0.15em] text-slate-900 uppercase">Initializing Automated OSINT Reconnaissance Pipeline...</h2>
+            </div>
+
+            <div class="w-full max-w-3xl mx-auto bg-white/90 backdrop-blur border border-slate-200 rounded p-4 shadow-sm relative">
+                <div class="flex justify-between items-center text-[9px] font-bold tracking-wider mb-3 px-1">
+                    <div class="flex items-center space-x-2 text-slate-400">
+                        <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
+                        <span class="uppercase">Authorization Terminal Required</span>
                     </div>
-                    <span class="text-[10px] tracking-widest text-slate-500 uppercase font-medium">Digital Threat Analysis Platform</span>
-                </div>
-            </div>
-
-            <div class="text-right font-mono text-[10px] text-slate-500 space-y-1 p-3 border-r border-t border-slate-300 bg-slate-50/50 rounded-tr-md">
-                <div>NODE: <span class="text-slate-800 font-bold">BOI-STATION-4</span></div>
-                <div>SECURE_STREAM: <span class="text-emerald-700 font-bold">ESTABLISHED</span></div>
-                <div id="live-timestamp">UTC: 00:00:00</div>
-            </div>
-        </header>
-
-        <div id="gateway-stage" class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center space-y-4 pt-2 transition-all duration-1000 ease-in-out shrink-0">
-            
-            <div class="w-full text-center space-y-1 min-h-[40px]">
-                <div class="text-xs uppercase tracking-widest text-slate-400 font-bold">System Status Pipeline</div>
-                <h2 id="typing-engine" class="text-base md:text-lg font-normal text-slate-900 font-mono tracking-tight max-w-3xl mx-auto h-10 cursor-blink"></h2>
-            </div>
-
-            <div class="w-full max-w-2xl platinum-panel rounded shadow-xl overflow-hidden relative crimson-glow-input border border-slate-300 transition-all duration-500">
-                <div class="bg-slate-100/80 border-b border-slate-200 px-4 py-2 flex items-center justify-between">
-                    <div class="flex items-center space-x-2">
-                        <div class="w-1.5 h-1.5 bg-red-700 rounded-full animate-ping"></div>
-                        <span class="text-[10px] uppercase tracking-wider text-slate-600 font-bold">Authorization Terminal Required</span>
-                    </div>
-                    <span class="text-[9px] text-slate-400 font-mono">ID_AUTH_V4</span>
+                    <div class="text-slate-300 font-mono">TD_AUTH_V1</div>
                 </div>
 
-                <form id="access-form" onsubmit="executeSecureEntry(event)" class="p-4 flex flex-col sm:flex-row items-stretch gap-3">
-                    <div class="relative flex-1">
-                        <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                            <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Investigator //</span>
+                <form onsubmit="executeSecureEntry(event)" class="flex flex-col sm:flex-row gap-2">
+                    <div class="flex-1 relative">
+                        <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-[10px] font-bold tracking-wider text-slate-400 uppercase">
+                            Investigator //
                         </div>
-                        <input 
-                            type="text" 
-                            id="investigator-name" 
-                            required
-                            autocomplete="off"
-                            placeholder="ENTER CURRENT CALLSIGN OR NAME..." 
-                            class="w-full bg-white border border-slate-300 rounded px-3 py-2.5 pl-24 font-mono text-xs text-slate-900 placeholder-slate-300 tracking-widest focus:outline-none focus:border-slate-400 transition-all uppercase shadow-inner"
-                        >
+                        <input type="text" id="investigator-name" required class="w-full bg-[#f8fafc] border border-slate-200 rounded py-2.5 pl-24 pr-4 text-xs font-bold uppercase tracking-widest text-slate-900 focus:outline-none focus:border-slate-400 transition-colors" placeholder="ENTER CURRENT CALLSIGN OR NAME...">
                     </div>
-
-                    <button 
-                        type="submit" 
-                        class="px-6 bg-slate-900 hover:bg-red-800 text-white font-mono text-xs font-bold uppercase tracking-widest transition-all duration-300 border border-slate-900 hover:border-red-700 cursor-pointer flex items-center justify-center space-x-2 rounded h-11 sm:h-auto shadow"
-                    >
+                    <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-white text-[10px] font-bold tracking-widest uppercase px-6 py-2.5 rounded flex items-center justify-center space-x-2 transition-colors cursor-pointer">
                         <span>GO_INSIDE_</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
+                        <span>&gt;</span>
                     </button>
                 </form>
             </div>
-        </div>
 
-        <div id="features-matrix" class="w-full max-w-6xl mx-auto pt-2 transition-all duration-1000 shrink-0">
-            <div class="flex flex-col space-y-4">
-                
-                <div class="flex items-center space-x-4 px-2">
-                    <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
-                    <h3 class="text-[10px] font-bold tracking-[0.3em] text-slate-400 uppercase tech-font">System_Capabilities_Matrix</h3>
-                    <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div class="platinum-panel group hover:border-red-700/30 transition-all duration-300 p-4 relative overflow-hidden flex flex-col justify-between h-32 cursor-default">
-                        <div class="absolute -right-4 -top-4 w-14 h-14 bg-slate-100 rounded-full group-hover:bg-red-50 transition-colors duration-300 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-slate-400 group-hover:text-red-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                            </svg>
-                        </div>
-                        <div class="relative z-10 max-w-[85%]">
-                            <span class="text-[8px] font-bold text-red-700 font-mono tracking-widest uppercase">Engine_01</span>
-                            <h4 class="text-xs font-bold text-slate-900 mt-0.5 uppercase tracking-tight">Neural Correlation</h4>
-                            <p class="text-[10px] text-slate-500 mt-1 leading-tight font-medium">Advanced pattern matching across distributed deep-web nodes for real-time threat tracking.</p>
-                        </div>
-                        <div class="flex items-center space-x-2 opacity-40 group-hover:opacity-100 transition-opacity">
-                            <div class="h-0.5 w-6 bg-red-700"></div>
-                            <span class="text-[8px] font-bold text-slate-400 font-mono italic">ACTIVE_PROCESS</span>
-                        </div>
+            <div class="w-full space-y-3">
+                <div class="text-center text-[9px] font-bold tracking-[0.3em] text-slate-400 uppercase">System_Capabilities_Matrix</div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-white/80 border border-slate-200/60 rounded p-4 relative overflow-hidden shadow-sm">
+                        <div class="absolute top-2 right-3 text-slate-300 text-xs font-bold">⚡</div>
+                        <div class="text-[9px] font-mono text-red-500 font-bold tracking-wider mb-1">ENGINE_01</div>
+                        <h4 class="text-[11px] font-bold tracking-wider text-slate-900 uppercase mb-1.5">Neural Correlation</h4>
+                        <p class="text-[10px] text-slate-400 leading-relaxed font-medium">Advanced pattern matching across distributed deep-web nodes for real-time threat tracking.</p>
+                        <div class="mt-4 pt-2 border-t border-slate-100 text-[8px] font-mono font-bold text-slate-300 tracking-wider">—— ACTIVE_PROCESS</div>
                     </div>
-
-                    <div class="platinum-panel group hover:border-slate-900/30 transition-all duration-300 p-4 relative overflow-hidden flex flex-col justify-between h-32 cursor-default">
-                        <div class="absolute -right-4 -top-4 w-14 h-14 bg-slate-100 rounded-full group-hover:bg-slate-200 transition-colors duration-300 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-slate-400 group-hover:text-slate-900 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                        </div>
-                        <div class="relative z-10 max-w-[85%]">
-                            <span class="text-[8px] font-bold text-slate-500 font-mono tracking-widest uppercase">Engine_02</span>
-                            <h4 class="text-xs font-bold text-slate-900 mt-0.5 uppercase tracking-tight">OSINT Aggregator</h4>
-                            <p class="text-[10px] text-slate-500 mt-1 leading-tight font-medium">Unified data extraction from 500+ intelligence sources including server logs.</p>
-                        </div>
-                        <div class="flex items-center space-x-2 opacity-40 group-hover:opacity-100 transition-opacity">
-                            <div class="h-0.5 w-6 bg-slate-900"></div>
-                            <span class="text-[8px] font-bold text-slate-400 font-mono italic">READY_STATE</span>
-                        </div>
+                    <div class="bg-white/80 border border-slate-200/60 rounded p-4 relative overflow-hidden shadow-sm">
+                        <div class="absolute top-2 right-3 text-slate-300 text-xs font-bold">🔍</div>
+                        <div class="text-[9px] font-mono text-slate-400 font-bold tracking-wider mb-1">ENGINE_02</div>
+                        <h4 class="text-[11px] font-bold tracking-wider text-slate-900 uppercase mb-1.5">OSINT Aggregator</h4>
+                        <p class="text-[10px] text-slate-400 leading-relaxed font-medium">Unified data extraction from 500+ intelligence sources including server logs.</p>
+                        <div class="mt-4 pt-2 border-t border-slate-100 text-[8px] font-mono font-bold text-slate-300 tracking-wider">—— READY_STATE</div>
                     </div>
-
-                    <div class="platinum-panel group hover:border-red-700/30 transition-all duration-300 p-4 relative overflow-hidden flex flex-col justify-between h-32 cursor-default">
-                        <div class="absolute -right-4 -top-4 w-14 h-14 bg-slate-100 rounded-full group-hover:bg-red-50 transition-colors duration-300 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-slate-400 group-hover:text-red-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                            </svg>
-                        </div>
-                        <div class="relative z-10 max-w-[85%]">
-                            <span class="text-[8px] font-bold text-red-700 font-mono tracking-widest uppercase">Engine_03</span>
-                            <h4 class="text-xs font-bold text-slate-900 mt-0.5 uppercase tracking-tight">Forensic Vault</h4>
-                            <p class="text-[10px] text-slate-500 mt-1 leading-tight font-medium">Encrypted storage layer for digital evidence with automated SHA-256 integrity verification.</p>
-                        </div>
-                        <div class="flex items-center space-x-2 opacity-40 group-hover:opacity-100 transition-opacity">
-                            <div class="h-0.5 w-6 bg-red-700"></div>
-                            <span class="text-[8px] font-bold text-slate-400 font-mono italic">ENCRYPTED_LINK</span>
-                        </div>
-                    </div>
-
-                    <div class="platinum-panel group hover:border-slate-900/30 transition-all duration-300 p-4 relative overflow-hidden flex flex-col justify-between h-32 cursor-default">
-                        <div class="absolute -right-4 -top-4 w-14 h-14 bg-slate-100 rounded-full group-hover:bg-slate-200 transition-colors duration-300 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-slate-400 group-hover:text-slate-900 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
-                            </svg>
-                        </div>
-                        <div class="relative z-10 max-w-[85%]">
-                            <span class="text-[8px] font-bold text-slate-500 font-mono tracking-widest uppercase">Engine_04</span>
-                            <h4 class="text-xs font-bold text-slate-900 mt-0.5 uppercase tracking-tight">Malware Sandbox</h4>
-                            <p class="text-[10px] text-slate-500 mt-1 leading-tight font-medium">Isolated heuristic runtime checking for suspicious payloads, trackers, and execution patterns.</p>
-                        </div>
-                        <div class="flex items-center space-x-2 opacity-40 group-hover:opacity-100 transition-opacity">
-                            <div class="h-0.5 w-6 bg-slate-900"></div>
-                            <span class="text-[8px] font-bold text-slate-400 font-mono italic">VIRTUALIZED_NODE</span>
-                        </div>
-                    </div>
-
-                    <div class="platinum-panel group hover:border-red-700/30 transition-all duration-300 p-4 relative overflow-hidden flex flex-col justify-between h-32 cursor-default">
-                        <div class="absolute -right-4 -top-4 w-14 h-14 bg-slate-100 rounded-full group-hover:bg-red-50 transition-colors duration-300 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-slate-400 group-hover:text-red-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7v8a2 2 0 002 2h6M8 7a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path>
-                            </svg>
-                        </div>
-                        <div class="relative z-10 max-w-[85%]">
-                            <span class="text-[8px] font-bold text-red-700 font-mono tracking-widest uppercase">Engine_05</span>
-                            <h4 class="text-xs font-bold text-slate-900 mt-0.5 uppercase tracking-tight">Metadata Scraper</h4>
-                            <p class="text-[10px] text-slate-500 mt-1 leading-tight font-medium">Deep structural analysis of images and payloads to parse hidden EXIF and authorship artifacts.</p>
-                        </div>
-                        <div class="flex items-center space-x-2 opacity-40 group-hover:opacity-100 transition-opacity">
-                            <div class="h-0.5 w-6 bg-red-700"></div>
-                            <span class="text-[8px] font-bold text-slate-400 font-mono italic">PARSING_ARRAY</span>
-                        </div>
-                    </div>
-
-                    <div class="platinum-panel group hover:border-slate-900/30 transition-all duration-300 p-4 relative overflow-hidden flex flex-col justify-between h-32 cursor-default">
-                        <div class="absolute -right-4 -top-4 w-14 h-14 bg-slate-100 rounded-full group-hover:bg-slate-200 transition-colors duration-300 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-slate-400 group-hover:text-slate-900 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                            </svg>
-                        </div>
-                        <div class="relative z-10 max-w-[85%]">
-                            <span class="text-[8px] font-bold text-slate-500 font-mono tracking-widest uppercase">Engine_06</span>
-                            <h4 class="text-xs font-bold text-slate-900 mt-0.5 uppercase tracking-tight">Actor Profiling</h4>
-                            <p class="text-[10px] text-slate-500 mt-1 leading-tight font-medium">Cross-referencing leaked data structures and footprints to build target dossier profiles.</p>
-                        </div>
-                        <div class="flex items-center space-x-2 opacity-40 group-hover:opacity-100 transition-opacity">
-                            <div class="h-0.5 w-6 bg-slate-900"></div>
-                            <span class="text-[8px] font-bold text-slate-400 font-mono italic">STANDBY_SYNC</span>
-                        </div>
+                    <div class="bg-white/80 border border-slate-200/60 rounded p-4 relative overflow-hidden shadow-sm">
+                        <div class="absolute top-2 right-3 text-slate-300 text-xs font-bold">🛡</div>
+                        <div class="text-[9px] font-mono text-red-500 font-bold tracking-wider mb-1">ENGINE_03</div>
+                        <h4 class="text-[11px] font-bold tracking-wider text-slate-900 uppercase mb-1.5">Forensic Vault</h4>
+                        <p class="text-[10px] text-slate-400 leading-relaxed font-medium">Encrypted storage layer for digital evidence with automated SHA-256 integrity verification.</p>
+                        <div class="mt-4 pt-2 border-t border-slate-100 text-[8px] font-mono font-bold text-slate-300 tracking-wider">—— ENCRYPTED_LINK</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="lea-operations-desk" class="w-full max-w-6xl mx-auto pt-2 pb-4 transition-all duration-1000 shrink-0">
-            <div class="flex flex-col space-y-4">
-                
-                <div class="flex items-center space-x-4 px-2">
-                    <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
-                    <h3 class="text-[10px] font-bold tracking-[0.3em] text-red-800 uppercase tech-font">Law_Enforcement_Tactical_Operations_Desk</h3>
-                    <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
-                    
-                    <div class="lg:col-span-7 platinum-panel border-l-2 border-l-red-800 p-5 flex flex-col justify-between h-44 relative overflow-hidden group">
-                        <div class="absolute top-2 right-2 font-mono text-[9px] text-slate-300 select-none group-hover:text-red-700/10 transition-colors">
-                            [SYS_REF: LEA_E-WARRANT_V9]
-                        </div>
-                        
-                        <div class="space-y-2">
-                            <div class="flex items-center space-x-2">
-                                <span class="w-1.5 h-1.5 bg-red-700 rounded-full animate-pulse"></span>
-                                <span class="text-[9px] font-mono font-bold uppercase text-slate-400 tracking-wider">Sub-Layer Stream</span>
-                                <h4 class="text-sm font-bold text-slate-900 uppercase tracking-tight">Automated LEA Subpoena & Intercept Routing</h4>
-                            </div>
-                            <p class="text-[10px] text-slate-500 leading-relaxed font-medium max-w-[90%]">
-                                Generates cross-jurisdictional compliant infrastructure request logs. Directly maps verified active cyber threats to court-admissible forensic artifacts instantly.
-                            </p>
-                        </div>
-
-                        <div class="grid grid-cols-3 gap-2 border-t border-slate-200/60 pt-3 text-[10px] font-mono">
-                            <div>
-                                <span class="text-slate-400 block uppercase text-[8px] font-bold">Warrant Status</span>
-                                <span class="text-emerald-700 font-bold tracking-tight flex items-center space-x-1">
-                                    <span>●</span> <span>READY_TO_PARSE</span>
-                                </span>
-                            </div>
-                            <div>
-                                <span class="text-slate-400 block uppercase text-[8px] font-bold">Node Handshake</span>
-                                <span class="text-slate-800 font-bold">SECURE_TLS_G2</span>
-                            </div>
-                            <div>
-                                <span class="text-slate-400 block uppercase text-[8px] font-bold">Chain Custody</span>
-                                <span class="text-slate-900 font-bold bg-slate-100 border border-slate-200 px-1 rounded text-[9px]">SHA256_LOCKED</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-5 platinum-panel border-l-2 border-l-slate-900 p-5 flex flex-col justify-between h-44 relative overflow-hidden group">
-                        <div class="flex items-center justify-between border-b border-slate-200/60 pb-2">
-                            <div class="flex items-center space-x-2">
-                                <svg class="w-4 h-4 text-slate-800 animate-spin [animation-duration:12s]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                                </svg>
-                                <span class="font-bold tracking-wider text-slate-900 uppercase text-[11px] tech-font">Live Monitor Matrix</span>
-                            </div>
-                            <span class="text-[8px] bg-slate-900 text-white px-1 rounded font-mono font-bold">REAL_TIME</span>
-                        </div>
-
-                        <div class="space-y-1.5 my-auto font-mono text-[10px] text-slate-600">
-                            <div class="flex justify-between items-center bg-slate-50 p-1 rounded border border-slate-200/50">
-                                <span>[+] INTERPOL_RED_NOTICE_API</span>
-                                <span class="text-emerald-700 font-bold">CONNECTED</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-slate-50 p-1 rounded border border-slate-200/50">
-                                <span>[+] DARKNET_FORUM_CROSSREF</span>
-                                <span class="text-red-700 font-bold animate-pulse">STREAMING</span>
-                            </div>
-                        </div>
-
-                        <div class="text-[9px] text-slate-400 font-mono tracking-normal pt-1 flex justify-between items-center">
-                            <span>PLATFORM VER: v4.1.0-PRO</span>
-                            <span class="text-slate-500 font-bold">[ ENFORCEMENT ENABLED ]</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-<div id="darknet-scraper-terminal" class="w-full max-w-6xl mx-auto pt-2 pb-4 transition-all duration-1000 shrink-0">
-    <div class="flex flex-col space-y-4">
-        
-        <div class="flex items-center space-x-4 px-2">
-            <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
-            <h3 class="text-[10px] font-bold tracking-[0.3em] text-slate-900 uppercase tech-font">Deep_Web_Scraping_&_Data_Leak_Stream</h3>
-            <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
-        </div>
-
-        <div class="platinum-panel rounded-lg overflow-hidden relative border border-slate-300/80 shadow-2xl bg-white/40">
+        <!-- ==================== STAGE 2: SECOND PAGE (20 INTERACTIVE BLOCKS GRID) ==================== -->
+        <div id="operation-matrix-desk" class="w-full hidden opacity-0 transition-all duration-500 space-y-6">
             
-            <div class="bg-slate-900 text-slate-100 px-5 py-2.5 flex justify-between items-center border-b border-slate-800">
-                <div class="flex items-center space-x-3 text-[10px] font-mono tracking-wider">
-                    <span class="inline-block w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
-                    <span class="text-slate-400 font-bold">// SUBSURFACE DEEP-WEB SECTOR SCANNER</span>
-                    <span class="px-1.5 bg-red-950/50 border border-red-800 text-red-500 font-bold rounded text-[8px]">TOR_I2P_ROUTING</span>
+            <!-- Dashboard Controls Upper Header -->
+            <div class="w-full flex justify-between items-center border-b border-slate-200 pb-3 select-none">
+                <div class="flex items-center space-x-3">
+                    <button onclick="triggerStepBack()" class="w-6 h-6 bg-white hover:bg-slate-50 text-slate-800 rounded border border-slate-200 shadow-sm transition-colors cursor-pointer flex items-center justify-center font-bold text-xs" title="Step Back">
+                        ←
+                    </button>
+                    <div>
+                        <div class="text-xs font-bold tracking-widest text-slate-900 uppercase">Advanced Intelligence Core Array</div>
+                        <div class="text-[9px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Active Operator: <span id="operator-callsign" class="text-slate-600">INTEL_USER</span></div>
+                    </div>
                 </div>
-                <div class="flex items-center space-x-4 text-[9px] font-mono text-slate-400">
-                    <div>SCRAPE_RATE: <span class="text-emerald-500 font-bold animate-pulse">4.8 GB/s</span></div>
-                    <div class="hidden sm:block">THREADS: <span class="text-slate-200 font-bold">128/ACTIVE</span></div>
+                <div class="text-right text-[10px] font-bold tracking-widest text-slate-900 uppercase">
+                    Clarity over noise
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 min-h-[180px]">
+            <div class="text-left text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-2">// Click on any module matrix block to activate target inputs</div>
+
+            <!-- THE 20 FEATURES GRID INTERFACE -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
                 
-                <div class="lg:col-span-2 bg-slate-950/5 border-r border-slate-200 p-3 flex flex-col justify-between items-center relative overflow-hidden select-none">
-                    <div class="absolute inset-0 opacity-15 font-mono text-[8px] leading-none text-red-800 tracking-tighter break-all pointer-events-none p-1">
-                        011001010111100001110100011100100110000101100011011101000010000001101111011100100110100101100111011010010110111001110011
+                <!-- MODULE 1 -->
+                <div id="mod-block-1" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(1)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">01//</span> Probable Investigation Scenario</div>
+                        <span id="arrow-1" class="text-slate-400 font-mono text-xs font-bold">▲</span>
                     </div>
-                    <div class="w-full text-center relative z-10">
-                        <span class="text-[7px] font-mono font-bold text-slate-400 block tracking-widest uppercase">Target_Array</span>
-                        <div class="text-base font-bold text-red-800 font-mono tracking-tighter mt-0.5 animate-pulse">#009-X</div>
-                    </div>
-                    <div class="relative w-12 h-12 flex items-center justify-center my-2">
-                        <div class="absolute inset-0 border border-slate-300 rounded-full animate-spin [animation-duration:8s]"></div>
-                        <div class="absolute w-8 h-8 border border-dashed border-red-800/30 rounded-full animate-spin [animation-duration:4s] [animation-direction:reverse]"></div>
-                        <div class="w-1.5 h-1.5 bg-red-700 rounded-full"></div>
-                    </div>
-                    <div class="w-full text-center text-[8px] font-mono text-slate-500 font-bold uppercase relative z-10 tracking-tight">
-                        CORE_GATEWAY_UP
+                    <div id="body-1" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Domain Node</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="secure-login-update.com"></div>
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Email Target</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="alert@support-verify.net"></div>
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Profile Handle</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="@threat_vector_alpha"></div>
+                            <div><label class="block font-bold text-slate-500 mb-0.5">URL Target String</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="https://secure.login.com/auth"></div>
+                        </div>
+                        <button onclick="runModuleSimulation(1)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-1" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// AI Attack Flow Simulation Engine Matrix:</div>
+                            <blockquote class="text-emerald-400 font-medium italic">“possible attack flow” Output Logs Generated:</blockquote>
+                            <div class="grid grid-cols-1 gap-1.5 text-[11px] pl-2 border-l border-red-500">
+                                <div>● <span class="text-white">Phishing Email Sent:</span> Inbound execution matching structural templates launched toward target sector database.</div>
+                                <div>● <span class="text-white">Fake Domain Opened:</span> Spoofed rendering portal configured to replicate secure financial access node.</div>
+                                <div>● <span class="text-white">Credential Harvesting:</span> Intercept transmission parameters operational inside client input listener fields.</div>
+                                <div>● <span class="text-white">Telegram Redirection:</span> Exfiltrated strings compiled and instantly piped via live bot API token tunnels.</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-6 bg-slate-900/90 text-slate-300 p-4 font-mono text-[10px] leading-relaxed relative flex flex-col justify-between overflow-hidden group border-r border-slate-800">
-                    
-                    <div class="absolute inset-0 bg-gradient-to-b from-slate-950/20 via-transparent to-slate-950/40 pointer-events-none"></div>
-                    
-                    <div class="space-y-1.5 relative z-10">
-                        <div class="flex items-center space-x-2 text-slate-500 text-[9px] border-b border-slate-800 pb-1">
-                            <span class="text-emerald-500">✔ READY</span>
-                            <span>|</span>
-                            <span>INJECTING REAL-TIME CAPTURED THREAT FOOTPRINTS...</span>
-                        </div>
-                        <div class="flex items-start space-x-1 tracking-tight text-slate-400">
-                            <span class="text-red-500 shrink-0 font-bold">[CRITICAL]</span>
-                            <span class="text-slate-200">Breach Detected:</span>
-                            <span class="text-slate-400 break-all">sqlite_dump_v2.onion/leaks/payload_auth.sql</span>
-                        </div>
-                        <div class="flex items-center space-x-2 text-slate-400">
-                            <span class="text-amber-500 shrink-0">[METADATA]</span>
-                            <span>SIZE: <span class="text-slate-100 font-bold">1.42 GB</span></span>
-                            <span>|</span>
-                            <span>HASH: <span class="text-slate-300">sha256_8f2c01...</span></span>
-                        </div>
-                        <div class="flex items-start space-x-1 text-slate-500 text-[9px] pt-1">
-                            <span class="text-slate-400 font-bold">[+] EXTRACTING:</span>
-                            <span class="text-slate-500 animate-pulse break-all">{"actor_handle": "BreachMaster", "vector": "CVE-2026-0412", "status": "parsing"}</span>
-                        </div>
+                <!-- MODULE 2 -->
+                <div id="mod-block-2" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(2)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">02//</span> Digital Twin Engine</div>
+                        <span id="arrow-2" class="text-slate-400 font-mono text-xs font-bold">▲</span>
                     </div>
-
-                    <div class="border-t border-slate-800/80 pt-3 mt-4 flex items-center justify-between text-[9px] text-slate-400">
-                        <div class="flex items-center space-x-2">
-                            <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
-                            <span class="font-bold uppercase tracking-wider text-slate-500">Pipeline Status:</span>
-                            <span class="text-emerald-500 font-bold bg-emerald-950/40 px-1 border border-emerald-900/50 rounded">AUTO_SYNCING</span>
+                    <div id="body-2" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Domain Vector</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="dns-routing.org"></div>
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Email String</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="crypto-vault@proton.me"></div>
                         </div>
-                        <div class="italic text-[8px] text-slate-500 font-bold">MONITORING_NODES: 4,119</div>
+                        <button onclick="runModuleSimulation(2)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-2" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// Suspect Behavior Model - “operator fingerprint”:</div>
+                            <div class="space-y-1.5 text-[11px]">
+                                <div><strong class="text-white uppercase">[Active Hours]:</strong> 22:00 UTC to 04:00 UTC consistently matching automated cron deployments.</div>
+                                <div><strong class="text-white uppercase">[Infrastructure Habits]:</strong> Frequent migration across bulletproof hosting subnets using transient offshore VPS.</div>
+                                <div><strong class="text-white uppercase">[Preferred Platforms]:</strong> Encrypted channels, hidden darknet indices and privacy-centric network clusters.</div>
+                                <div><strong class="text-white uppercase">[Language Style]:</strong> Technical nomenclature laced with localized regional dialect overlays and spoofed metadata strings.</div>
+                                <div><strong class="text-white uppercase">[Fraud Methods]:</strong> Synchronized multi-vector token harvesting combined with automated proxy relay switching.</div>
+                                <div><strong class="text-white uppercase">[Operational Consistency]:</strong> Highly disciplined execution rhythm with deliberate delays added to evade defensive algorithms.</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-4 p-4 flex flex-col justify-between space-y-4 bg-white/30 backdrop-blur-md">
-                    
-                    <div class="space-y-2">
-                        <div class="text-[9px] font-mono font-bold uppercase tracking-widest text-slate-400 flex justify-between items-center">
-                            <span>Diagnostic Sensors</span>
-                            <span class="text-slate-600 font-mono text-[8px]">[LEVEL_5_CLEARANCE]</span>
+                <!-- MODULE 3 -->
+                <div id="mod-block-3" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(3)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">03//</span> Coordinated Activity Detector</div>
+                        <span id="arrow-3" class="text-slate-400 font-mono text-xs font-bold">▲</span>
+                    </div>
+                    <div id="body-3" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Profile Dataset</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="social-cluster-input"></div>
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Target Link URL</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="https://malicious-node.xyz"></div>
                         </div>
-                        
-                        <div class="space-y-1.5 font-mono text-[10px]">
-                            <div class="flex justify-between items-center bg-slate-100/80 p-1.5 px-2 rounded border border-slate-200">
-                                <span class="text-slate-500 font-medium">[1] Tor Relay Sync Rate</span>
-                                <span class="text-slate-900 font-bold">94.2%</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-slate-100/80 p-1.5 px-2 rounded border border-slate-200">
-                                <span class="text-slate-500 font-medium">[2] Credentials Parsed</span>
-                                <span class="text-red-700 font-bold animate-pulse">12,401/m</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-slate-100/80 p-1.5 px-2 rounded border border-slate-200">
-                                <span class="text-slate-500 font-medium">[3] Extracted Vectors</span>
-                                <span class="text-slate-900 font-bold font-mono">314_RAW</span>
+                        <button onclick="runModuleSimulation(3)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-3" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// High-End Cluster Analysis Result:</div>
+                            <div class="space-y-1.5 text-[11px]">
+                                <div><strong class="text-white uppercase">[Same Content Posted Simultaneously]:</strong> 412 distinct verified profiles deployed matching identical payload text down to millisecond timestamps.</div>
+                                <div><strong class="text-white uppercase">[Same Hashtags Cluster]:</strong> Cryptographic matches found across trending strings used to amplify reach.</div>
+                                <div><strong class="text-white uppercase">[Same Links Signature]:</strong> All vectors resolve back to a central distributed redirector node.</div>
+                                <div><strong class="text-white uppercase">[Synchronized Activity Mapping]:</strong> Positive matches for botnets, network scam nodes, coordinated state propaganda, and synthetic fake engagement farms.</div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="flex items-center justify-between border-t border-slate-200/80 pt-2 text-[9px] font-mono">
-                        <span class="text-slate-400 uppercase tracking-tighter">DATA LINK ID: TRACE-9041-A</span>
-                        <span class="font-bold text-slate-700 uppercase flex items-center space-x-1">
-                            <span class="inline-block w-1.5 h-1.5 bg-slate-900 rounded-sm"></span>
-                            <span>Platform Locked</span>
-                        </span>
+                <!-- MODULE 4 -->
+                <div id="mod-block-4" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(4)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">04//</span> Psychological Manipulation Engine</div>
+                        <span id="arrow-4" class="text-slate-400 font-mono text-xs font-bold">▲</span>
                     </div>
+                    <div id="body-4" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Email Text Input</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="Paste threat narrative content here..."></div>
+                            <div><label class="block font-bold text-slate-500 mb-0.5">URL Variant</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="https://urgent-verification-portal.com"></div>
+                        </div>
+                        <button onclick="runModuleSimulation(4)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-4" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// Manipulation Strategy Analysis Breakdown:</div>
+                            <div class="space-y-1.5 text-[11px]">
+                                <div><strong class="text-white uppercase">[Persuasion Style]:</strong> High-pressure adversarial authority tone mimicking statutory cyber regulatory bodies.</div>
+                                <div><strong class="text-white uppercase">[Emotional Triggers]:</strong> Sudden fear induction, administrative panic, and threat of imminent financial asset isolation.</div>
+                                <div><strong class="text-white uppercase">[Urgency Tactics]:</strong> Strict countdown parameters enforced via client interface mechanics ("Action required within 120 seconds").</div>
+                                <div><strong class="text-white uppercase">[Authority Imitation]:</strong> Fabricated reference codes, digital signature approximations, and falsified legal seals.</div>
+                                <div><strong class="text-white uppercase">[Victim Targeting Methods]:</strong> Explicit focus tailored to compromise corporate system administrators and retail banking clients.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <!-- MODULE 5 -->
+                <div id="mod-block-5" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(5)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">05//</span> Threat Evolution Tracker</div>
+                        <span id="arrow-5" class="text-slate-400 font-mono text-xs font-bold">▲</span>
+                    </div>
+                    <div id="body-5" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Domain History Node</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="evolutionary-target.net"></div>
+                        </div>
+                        <button onclick="runModuleSimulation(5)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-5" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// Behavioral Metamorphic Tracking Log:</div>
+                            <div class="text-xs text-slate-400 italic mb-1">// Threat behavior timeline tracking:</div>
+                            <div class="space-y-1.5 text-[11px] pl-2 border-l border-amber-500">
+                                <div>● <strong class="text-emerald-400">[Stage 1]: Domain Initially Clean:</strong> Registered with legitimate registrar using generic neutral landing content placeholder blocks.</div>
+                                <div>● <strong class="text-amber-400">[Stage 2]: Later Phishing Flag:</strong> Subnet configuration instantly swapped to host localized banking credential traps.</div>
+                                <div>● <strong class="text-red-400">[Stage 3]: Later Malware Delivery:</strong> Exposed landing files modified to push payload downloads exploiting legacy endpoints.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 6 -->
+                <div id="mod-block-6" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(6)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">06//</span> Investigation Gap Analyzer</div>
+                        <span id="arrow-6" class="text-slate-400 font-mono text-xs font-bold">▲</span>
+                    </div>
+                    <div id="body-6" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Case Domain / Input</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="partial-evidence-log"></div>
+                        </div>
+                        <button onclick="runModuleSimulation(6)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-6" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// “Missing evidence areas” Diagnostic Report:</div>
+                            <div class="space-y-1.5 text-[11px] text-amber-200">
+                                <div>⚠️ **No DNS History Available:** Critical gap found in historic zone files routing telemetry before current deployment.</div>
+                                <div>⚠️ **Missing Attachment Analysis:** Inbound binary files matched inside associated email records lack sandbox validation metrics.</div>
+                                <div>⚠️ **Unverified Sender Infrastructure:** SPF/DKIM structural verification logs returned incomplete or deliberately modified headers.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 7 -->
+                <div id="mod-block-7" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(7)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">07//</span> AI Evidence Prioritization</div>
+                        <span id="arrow-7" class="text-slate-400 font-mono text-xs font-bold">▲</span>
+                    </div>
+                    <div id="body-7" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Multi-Vector Target Input</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="Enter mixed forensic inputs..."></div>
+                        </div>
+                        <button onclick="runModuleSimulation(7)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-7" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// High-Value Indicator Ranking Array:</div>
+                            <div class="space-y-1.5 text-[11px]">
+                                <div><span class="text-red-500 font-bold">[RANK 01]: Most Suspicious Indicators:</span> Outbound live traffic connections routed directly to hard-flagged ransomware controller IPs.</div>
+                                <div><span class="text-amber-400 font-bold">[RANK 02]: Highest-Value Findings:</span> Co-located hidden subdomains mapped to exactly identical cryptographic keys.</div>
+                                <div><span class="text-slate-400 font-bold">[RANK 03]: Strongest Correlations:</span> Overlapping behavioral active windows between suspect profile and host server modification timelines.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 8 -->
+                <div id="mod-block-8" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(8)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">08//</span> Digital Deception Detector</div>
+                        <span id="arrow-8" class="text-slate-400 font-mono text-xs font-bold">▲</span>
+                    </div>
+                    <div id="body-8" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Profile Avatar URL</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="https://platform.com/user-pic.jpg"></div>
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Profile Handle</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="@synthetic_node_0"></div>
+                        </div>
+                        <button onclick="runModuleSimulation(8)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-8" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// Synthetic Profile Metrics Analysis:</div>
+                            <div class="space-y-1.5 text-[11px]">
+                                <div>● <strong class="text-white">AI-Generated Profile Pics:</strong> Positive (99.4% Gan-Network signature detected via asymmetry evaluation vectors).</div>
+                                <div>● <strong class="text-white">Synthetic Engagement:</strong> Automated follower loop anomalies identified within target node metrics.</div>
+                                <div>● <strong class="text-white">Fake Identities:</strong> Background verification registry checks returned zero physical cross-references.</div>
+                                <div>● <strong class="text-white">Bot-Style Activity:</strong> Post repetition frequency conflicts with authentic human kinetic capacity boundaries.</div>
+                                <div>● <strong class="text-white">Copied Personas:</strong> Structural theft detected; biographical configuration matches legacy compromised accounts.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 9 -->
+                <div id="mod-block-9" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(9)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">09//</span> Threat Infrastructure Evolution Map</div>
+                        <span id="arrow-9" class="text-slate-400 font-mono text-xs font-bold">▲</span>
+                    </div>
+                    <div id="body-9" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Domain Cluster Track</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="target-infrastructure-block"></div>
+                        </div>
+                        <button onclick="runModuleSimulation(9)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-9" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// Threat Infrastructure History Map Logs:</div>
+                            <div class="space-y-1.5 text-[11px] font-mono text-slate-300">
+                                <div>[MAP_NODE_01] <strong class="text-white">Domain Changes:</strong> target-portal.net → core-update.com → auth-layer-secure.xyz</div>
+                                <div>[MAP_NODE_02] <strong class="text-white">Server Migrations:</strong> Moved from OVH Amsterdam Subnet to Bulletproof Asia Enclave Hosting.</div>
+                                <div>[MAP_NODE_03] <strong class="text-white">SSL Renewals:</strong> Rapid short-term Let's Encrypt automated rotations deployed every 30 days.</div>
+                                <div>[MAP_NODE_04] <strong class="text-white">Infrastructure Growth:</strong> Expanded from 1 single node entry point to 14 active proxy distribution layers.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 10 -->
+                <div id="mod-block-10" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(10)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">10//</span> AI Investigation Question Engine</div>
+                        <span id="arrow-10" class="text-slate-400 font-mono text-xs font-bold">▲</span>
+                    </div>
+                    <div id="body-10" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Target Case Signature</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="active-case-id-logs"></div>
+                        </div>
+                        <button onclick="runModuleSimulation(10)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-10" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// Collaborative AI Question Diagnostics:</div>
+                            <div class="space-y-1.5 text-[11px] text-amber-300 italic">
+                                <div>💬 “Could this be related to previous phishing activity flagged inside server sector B?”</div>
+                                <div>💬 “Was the account entirely inactive before the sudden high-volume scam campaign began?”</div>
+                                <div>💬 “Should linked infrastructure nodes inside the shared ASN block be immediately targeted for sub-scans?”</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 11 -->
+                <div id="mod-block-11" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(11)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">11//</span> Human vs Automated Activity Analyzer</div>
+                        <span id="arrow-11" class="text-slate-400 font-mono text-xs font-bold">▲</span>
+                    </div>
+                    <div id="body-11" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Profile Handle</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="@interact_profile"></div>
+                        </div>
+                        <button onclick="runModuleSimulation(11)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-11" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// Behavioral Automation Probability Index:</div>
+                            <div class="space-y-1.5 text-[11px]">
+                                <div>● <strong class="text-white">Bot-Like Behavior Level:</strong> 94% Probability match on algorithmic repetition indices.</div>
+                                <div>● <strong class="text-white">Automated Posting Matrix:</strong> Constant precision execution matching script-based system cycles.</div>
+                                <div>● <strong class="text-white">Scripted Activity Flags:</strong> No deviation patterns found in text syntax structure across 500 posts.</div>
+                                <div>● <strong class="text-white">API-Driven Actions:</strong> Confirmed payload submission calls skipping standard graphic user interface protocols.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 12 -->
+                <div id="mod-block-12" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(12)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">12//</span> Threat Confidence Matrix</div>
+                        <span id="arrow-12" class="text-slate-400 font-mono text-xs font-bold">▲</span>
+                    </div>
+                    <div id="body-12" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Domain String</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="verify-node-dns.com"></div>
+                        </div>
+                        <button onclick="runModuleSimulation(12)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-12" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// Multi-Layer Confidence Metrics Breakdown:</div>
+                            <div class="grid grid-cols-2 gap-2 text-[11px]">
+                                <div class="bg-slate-800 p-2 rounded"><strong>Infrastructure Confidence:</strong> <span class="text-red-400">92% CRITICAL</span></div>
+                                <div class="bg-slate-800 p-2 rounded"><strong>Behavioral Confidence:</strong> <span class="text-amber-400">85% HIGH</span></div>
+                                <div class="bg-slate-800 p-2 rounded"><strong>Phishing Confidence:</strong> <span class="text-red-500">97% CERTAIN</span></div>
+                                <div class="bg-slate-800 p-2 rounded"><strong>Impersonation Confidence:</strong> <span class="text-amber-400">89% HIGH</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 13 -->
+                <div id="mod-block-13" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(13)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">13//</span> Investigation Mode Switching</div>
+                        <span id="arrow-13" class="text-slate-400 font-mono text-xs font-bold">▲</span>
+                    </div>
+                    <div id="body-13" class="mt-4 space-y-4 hidden">
+                        <div class="space-y-1 text-[10px]">
+                            <label class="block font-bold text-slate-500">Select Investigation Mode Profile</label>
+                            <select id="mode-select" class="w-full bg-slate-50 border p-1.5 rounded font-mono font-bold text-slate-800">
+                                <option>Phishing Investigation Profile</option>
+                                <option>Impersonation Case Matrix</option>
+                                <option>Crypto Fraud Forensic Layer</option>
+                                <option>Social Engineering Mode</option>
+                                <option>Malware Delivery Tracking</option>
+                            </select>
+                        </div>
+                        <button onclick="runModuleSimulation(13)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-13" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-emerald-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// UI & AI Engine Profile Re-Configuration Alert:</div>
+                            <div class="text-[11px]">System state parameters, baseline intelligence algorithms, and targeted telemetry gathering paths have automatically recalibrated to optimize for the selected operational profile.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 14 -->
+                <div id="mod-block-14" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(14)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">14//</span> Cross-Case Pattern Detection</div>
+                        <span id="arrow-14" class="text-slate-400 font-mono text-xs font-bold">▲</span>
+                    </div>
+                    <div id="body-14" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Input Domain</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="new-target-site.org"></div>
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Email String</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="operator-contact@mail.com"></div>
+                        </div>
+                        <button onclick="runModuleSimulation(14)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-14" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// Global Cross-Reference Intelligence Engine:</div>
+                            <div class="space-y-1 text-[11px]">
+                                <div class="text-amber-300 font-bold">“Recurring fraud methodology detected.”</div>
+                                <div class="text-slate-400">Matches found against historical records in archive Case #BOI-2025-X89: identical server migration path patterns, credential harvesting strings, and duplicate profile metadata configurations.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 15 -->
+                <div id="mod-block-15" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(15)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">15//</span> Attack Stage Classification</div>
+                        <span id="arrow-15" class="text-slate-400 font-mono text-xs font-bold">▲</span>
+                    </div>
+                    <div id="body-15" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">URL / Payload Input</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="https://active-exploit-string.com"></div>
+                        </div>
+                        <button onclick="runModuleSimulation(15)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-15" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// MITRE Cyber Threat Intelligence Classification:</div>
+                            <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
+                                <div class="border-b border-slate-800 pb-1"><span class="text-slate-500 block text-[9px]">RECONNAISSANCE</span><span class="text-emerald-400">Completed (Target Scans Mapping Done)</span></div>
+                                <div class="border-b border-slate-800 pb-1"><span class="text-slate-500 block text-[9px]">DELIVERY</span><span class="text-emerald-400">Active (Phishing Mail Pipelines Operational)</span></div>
+                                <div class="border-b border-slate-800 pb-1"><span class="text-slate-500 block text-[9px]">EXPLOITATION</span><span class="text-amber-400">Attempted (Exposed Login Forms Active)</span></div>
+                                <div class="border-b border-slate-800 pb-1"><span class="text-slate-500 block text-[9px]">CREDENTIAL THEFT</span><span class="text-red-500 font-bold">CRITICAL MATCH (Live Input Listeners Found)</span></div>
+                                <div class="border-b border-slate-800 pb-1"><span class="text-slate-500 block text-[9px]">PERSISTENCE</span><span class="text-slate-500">None Detected at This Layer</span></div>
+                                <div class="border-b border-slate-800 pb-1"><span class="text-slate-500 block text-[9px]">MONETIZATION</span><span class="text-amber-500">Linked to Known Crypto Mixing Wallets</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 16 -->
+                <div id="mod-block-16" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(16)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">16//</span> AI Investigation Explainability</div>
+                        <span id="arrow-16" class="text-slate-400 font-mono text-xs font-bold">▲</span>
+                    </div>
+                    <div id="body-16" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Suspicious Flag Identifier</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="FLAG-INFRA-901"></div>
+                        </div>
+                        <button onclick="runModuleSimulation(16)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-16" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// White-Box System Verification Log:</div>
+                            <div class="space-y-1.5 text-[11px]">
+                                <div class="text-white font-bold uppercase tracking-tight">// WHY it marked something suspicious:</div>
+                                <p class="text-slate-300 leading-relaxed">The target asset was flagged as high-risk because it shares an identical upstream network router gateway with historically active command-and-control servers, coupled with an anomalous SSL renewal schedule that mimics volatile scam infrastructure behaviors.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 17 -->
+                <div id="mod-block-17" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(17)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">17//</span> Entity Reputation Evolution</div>
+                        <span id="arrow-17" class="text-slate-400 font-mono text-xs font-bold">▲</span>
+                    </div>
+                    <div id="body-17" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Entity Domain / Handle</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="tracking-entity-node"></div>
+                        </div>
+                        <button onclick="runModuleSimulation(17)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-17" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// Historical Reputation Metrics Lifecycle:</div>
+                            <div class="space-y-1.5 text-[11px]">
+                                <div>● <strong class="text-white">Domain Reputation Over Time:</strong> Gradual degradation from 100 (Trusted Baseline) down to 12 (Critical Threat Blocklist Match) over a 90-day frame.</div>
+                                <div>● <strong class="text-white">Account Behavior Changes:</strong> Shifted suddenly from quiet, intermittent standard updates into high-density synchronized outbound messaging cascades.</div>
+                                <div>● <strong class="text-white">Infrastructure History:</strong> Records clear transitions across anonymous proxy pools to systematically hide the originating server subnet.</div>
+                                <div>● <strong class="text-white">Abuse Growth Timeline:</strong> Incident reports scaled vertically, matching active operational deployment phases.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 18 -->
+                <div id="mod-block-18" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(18)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">18//</span> Fraud Narrative Analyzer</div>
+                        <span id="arrow-18" class="text-slate-400 font-mono text-xs font-bold">▲</span>
+                    </div>
+                    <div id="body-18" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Narrative Payload Input</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="Paste targeted conversation strings..."></div>
+                        </div>
+                        <button onclick="runModuleSimulation(18)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-18" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// Social Engineering Attack Architecture Analysis:</div>
+                            <div class="space-y-1.5 text-[11px]">
+                                <div>● <strong class="text-white">Scam Storyline:</strong> Fabricated security system breach notification vector demanding immediate secure database validation steps.</div>
+                                <div>● <strong class="text-white">Emotional Hooks:</strong> Exploitation of institutional fear regarding severe security compliance failure liabilities.</div>
+                                <div>● <strong class="text-white">Victim Targeting Strategy:</strong> Specifically tailored to exploit mid-level operational human vulnerabilities.</div>
+                                <div>● <strong class="text-white">Persuasion Stages:</strong> 1. Establish False Authority Node → 2. Present Fabricated Emergency Crisis → 3. Deliver Controlled Malicious Solved Option.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 19 -->
+                <div id="mod-block-19" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(19)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">19//</span> Targeting Profile Analysis</div>
+                        <span id="arrow-19" class="text-slate-400 font-mono text-xs font-bold">▲</span>
+                    </div>
+                    <div id="body-19" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Target Attack Vector Input</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="campaign-telemetry-data"></div>
+                        </div>
+                        <button onclick="runModuleSimulation(19)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-19" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// Law Enforcement Victim Profile Telemetry:</div>
+                            <div class="text-xs text-slate-400 italic mb-1">// AI inferred specific target demographics:</div>
+                            <div class="grid grid-cols-2 gap-2 text-[11px]">
+                                <div class="bg-slate-800 p-2 border-l-2 border-red-500 rounded-sm">👥 <strong>Job Seekers:</strong> Spoofed recruitment portals offering fake career onboarding pathways.</div>
+                                <div class="bg-slate-800 p-2 border-l-2 border-red-500 rounded-sm">🪙 <strong>Crypto Users:</strong> Malicious zero-value token drop schemes targeting web3 wallets.</div>
+                                <div class="bg-slate-800 p-2 border-l-2 border-slate-500 rounded-sm">👵 <strong>Elderly Citizens:</strong> Telecommunication support impersonation loops tracking banking IDs.</div>
+                                <div class="bg-slate-800 p-2 border-l-2 border-slate-500 rounded-sm">🎓 <strong>Students:</strong> Academic verification traps designed to collect raw structural data credentials.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 20 -->
+                <div id="mod-block-20" class="bg-white border border-slate-200 rounded p-4 shadow-sm transition-all duration-200">
+                    <div onclick="toggleModuleView(20)" class="flex justify-between items-center cursor-pointer select-none">
+                        <div class="font-bold text-xs text-slate-900 uppercase tracking-wider font-mono"><span class="text-red-500 mr-1">20//</span> Investigation Knowledge Graph</div>
+                        <span id="arrow-20" class="text-slate-400 font-mono text-xs font-bold">▲</span>
+                    </div>
+                    <div id="body-20" class="mt-4 space-y-4 hidden">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
+                            <div><label class="block font-bold text-slate-500 mb-0.5">Core Entity</label><input type="text" class="w-full bg-slate-50 border p-1.5 rounded font-mono" placeholder="root-malicious-node"></div>
+                        </div>
+                        <button onclick="runModuleSimulation(20)" class="w-full bg-slate-900 text-white font-mono text-[9px] py-2 font-bold tracking-widest uppercase rounded">RUN INTELLIGENCE EXTREMETIES_</button>
+                        <div id="res-20" class="hidden p-3 bg-slate-900 text-slate-300 rounded font-mono text-xs space-y-2">
+                            <div class="text-red-400 font-bold text-[10px] border-b border-slate-800 pb-1 uppercase tracking-wider">// Advanced Intelligence Memory Knowledge Graph Mapping:</div>
+                            <div class="space-y-1.5 text-[11px]">
+                                <div>🔗 <strong class="text-white">[Tactics Link]:</strong> MITRE T1566 Phishing matrix bound tightly to credential harvesting forms.</div>
+                                <div>🔗 <strong class="text-white">[Domains Relation]:</strong> 4 malicious root nodes share identical cross-signed SSL serialization metrics.</div>
+                                <div>🔗 <strong class="text-white">[Personas Connection]:</strong> Threat actor fake profile sets traced directly back to operational Telegram group bots.</div>
+                                <div>🔗 <strong class="text-white">[Infrastructure Nodes]:</strong> Active co-located offshore data server blocks routing within matching ASN paths.</div>
+                                <div>🔗 <strong class="text-white">[Campaign Clusters]:</strong> Correlated to unified multi-vector scams attacking regional infrastructure.</div>
+                                <div>🔗 <strong class="text-white">[Behavioral Patterns]:</strong> Perfect execution sync matching automated scripting deployments.</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
         </div>
+    </main>
 
-    </div>
-</div>
-
-        <footer class="w-full flex justify-between items-center border-t border-slate-200 pt-4 text-[10px] text-slate-400 uppercase tracking-widest shrink-0">
-            <div>PERSISTENT DATA MEMORY LAYER: <span class="text-slate-600 font-medium">READY</span></div>
-            <div>SECURITY ENCRYPTION: TLS_AES_256_GCM</div>
-        </footer>
-
-        <div id="workspace-stage" class="hidden absolute inset-0 w-full h-full bg-slate-100 z-50 flex flex-col opacity-0 transition-all duration-1000">
+    <!-- ==================== PREMIUM SYSTEM INFRASTRUCTURE FOOTER (FIRST PAGE ONLY) ==================== -->
+    <footer id="premium-system-footer" class="w-full border-t border-slate-200/80 pt-6 mt-12 text-[9px] tracking-wider select-none">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-slate-400 font-medium mb-4">
+            <div class="space-y-0.5">
+                <div class="text-slate-900 font-bold uppercase tracking-widest">// Central Network Core</div>
+                <div>Status: Connected to Secure Bureau Line</div>
+                <div>Architecture: Distributed Cloud Matrix Stack</div>
             </div>
+            <div class="space-y-0.5">
+                <div class="text-slate-900 font-bold uppercase tracking-widest">// System Guard Architecture</div>
+                <div>Security: FIPS-140-2 Validated Access Link</div>
+                <div>Routing Tunnel: Multi-Node Cryptographic Stream</div>
+            </div>
+            <div class="space-y-0.5">
+                <div class="text-slate-900 font-bold uppercase tracking-widest">// Central Platform Concept</div>
+                <div class="text-slate-900 font-bold tracking-tight uppercase">Clarity over noise</div>
+                <div>System Audit Integrity Check: Passed 100%</div>
+            </div>
+            <div class="space-y-0.5 text-right hidden md:block">
+                <div class="text-slate-900 font-bold uppercase tracking-widest">// Compliance Policies</div>
+                <div>Audit Clearance Code: <span class="text-slate-800 font-bold">LEA-BOI-2026</span></div>
+                <div>Operational Guidelines: Statutory Surveillance Bound</div>
+            </div>
+        </div>
 
-    </div>
+        <div class="w-full h-[1px] bg-slate-200 my-4"></div>
 
+        <div class="flex flex-col md:flex-row justify-between items-center text-[9px] text-slate-400 gap-4">
+            <div>
+                <span class="text-slate-900 font-bold">© 2026 BLACKOPS INTEL DIGITAL SYSTEMS CORP.</span>
+                <span class="mx-1">|</span>
+                <span>CLASSIFICATION: PRIVILEGED LEA INVESTIGATION BOUND ONLY</span>
+            </div>
+            
+            <div class="bg-slate-900 text-slate-100 rounded px-4 py-2 border border-slate-800 shadow flex items-center space-x-3">
+                <div class="text-[9px] font-bold text-slate-400 uppercase tracking-widest font-mono">SYSTEM_ARCHITECT:</div>
+                <div class="border-l border-slate-700 pl-3">
+                    <div class="text-[11px] font-bold uppercase tracking-wider text-white">Saniya Yadav</div>
+                    <div class="text-[8px] font-mono text-slate-400 uppercase tracking-wide leading-none mt-0.5">Chief Platform Engineer // Engineering Lead</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== SYSTEM INTERACTION EXECUTION LAYER ==================== -->
     <script>
-        // 1. SYSTEM REAL-TIME CLOCK ENGINE
-        function updateTimestamp() {
-            const now = new Date();
-            document.getElementById('live-timestamp').innerText = `UTC: ${now.toISOString().split('T')[1].slice(0,8)}`;
-        }
-        setInterval(updateTimestamp, 1000);
-        updateTimestamp();
-
-        // 2. HIGH-LEVEL CYBER TYPING STREAM SIMULATION
-        const intelPhrases = [
-            "INITIALIZING AUTOMATED OSINT RECONNAISSANCE PIPELINE...",
-            "CORRELATING HASH SIGNATURES WITH DISTRIBUTED THREAT INTELLIGENCE...",
-            "MONITORING SUSPICIOUS DOMAIN RESOLUTIONS & IP REPUTATION LOGS...",
-            "EXTRACTING FORENSIC METADATA ARTIFACTS IN SECURE VAULT..."
-        ];
-        
-        let phraseIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        const typingSpeed = 60;
-        const targetElement = document.getElementById('typing-engine');
-
-        function streamTypeEffect() {
-            const currentPhrase = intelPhrases[phraseIndex];
-            
-            if (isDeleting) {
-                targetElement.innerText = currentPhrase.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                targetElement.innerText = currentPhrase.substring(0, charIndex + 1);
-                charIndex++;
-            }
-
-            let computedDelay = typingSpeed;
-            if (!isDeleting && charIndex === currentPhrase.length) {
-                computedDelay = 3000; 
-                isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                phraseIndex = (phraseIndex + 1) % intelPhrases.length;
-                computedDelay = 500; 
-            }
-
-            setTimeout(streamTypeEffect, computedDelay);
-        }
-        setTimeout(streamTypeEffect, 800);
-
-        // 3. PERSISTENT ENTRY VERIFICATION & TRANSACTION STREAM
+        /**
+         * Authorizes entrance and flips pages smoothly
+         */
         function executeSecureEntry(event) {
             event.preventDefault();
-            const investigator = document.getElementById('investigator-name').value.trim().toUpperCase();
-            if (!investigator) return;
+            const sign = document.getElementById('investigator-name').value.trim();
+            if(!sign) return;
 
-            const sessionPayload = {
-                operator: investigator,
-                timestamp: new Date().toISOString(),
-                token: btoa(investigator + Date.now()).substring(0, 16)
-            };
+            document.getElementById('operator-callsign').innerText = sign.toUpperCase();
 
-            localStorage.setItem('BOI_SESSION_SECURE_TOKEN', JSON.stringify(sessionPayload));
-            
-            const gateway = document.getElementById('gateway-stage');
-            const features = document.getElementById('features-matrix');
-            const leaDesk = document.getElementById('lea-operations-desk');
-            
-            gateway.classList.add('opacity-0', 'scale-[0.97]');
-            features.classList.add('opacity-0', 'translate-y-8');
-            leaDesk.classList.add('opacity-0', 'translate-y-8');
-            
+            // Page 1 animation fade out
+            const page1 = document.getElementById('gateway-stage');
+            page1.classList.add('opacity-0', 'scale-95');
+
+            // STRICTLY HIDE THE FOOTER ON PAGE 2 ACCORDING TO REQUIREMENTS
+            document.getElementById('premium-system-footer').classList.add('hidden');
+
             setTimeout(() => {
-                gateway.classList.add('hidden');
-                features.classList.add('hidden');
-                leaDesk.classList.add('hidden');
-                console.log(`Database transaction committed for: ${investigator}`);
-                alert(`ACCESS GRANTED // OPERATOR SYSTEM INITIALIZED: ${investigator}\nReady for Module 2 Insertion.`);
-            }, 1000);
+                page1.classList.add('hidden');
+                const page2 = document.getElementById('operation-matrix-desk');
+                page2.classList.remove('hidden');
+                setTimeout(() => page2.classList.remove('opacity-0'), 50);
+            }, 400);
+        }
+
+        /**
+         * Backward structural route processing logic
+         */
+        function triggerStepBack() {
+            const page2 = document.getElementById('operation-matrix-desk');
+            page2.classList.add('opacity-0');
+
+            setTimeout(() => {
+                page2.classList.add('hidden');
+                const page1 = document.getElementById('gateway-stage');
+                page1.classList.remove('hidden');
+                
+                // Re-bind footer back on page 1 only
+                document.getElementById('premium-system-footer').classList.remove('hidden');
+
+                setTimeout(() => page1.classList.remove('opacity-0', 'scale-95'), 50);
+            }, 400);
+        }
+
+        /**
+         * Toggles the dynamic input workspace inside the selected module card block
+         */
+        function toggleModuleView(id) {
+            const targetBody = document.getElementById(`body-${id}`);
+            const targetArrow = document.getElementById(`arrow-${id}`);
+            const targetBlock = document.getElementById(`mod-block-${id}`);
+
+            if(targetBody.classList.contains('hidden')) {
+                targetBody.classList.remove('hidden');
+                targetArrow.innerText = "▼";
+                targetBlock.classList.remove('bg-white');
+                targetBlock.classList.add('bg-[#f8fafc]', 'border-slate-400');
+            } else {
+                targetBody.classList.add('hidden');
+                targetArrow.innerText = "▲";
+                targetBlock.classList.remove('bg-[#f8fafc]', 'border-slate-400');
+                targetBlock.classList.add('bg-white');
+            }
+        }
+
+        /**
+         * Simulates specific detailed accurate outputs inside target module layer block
+         */
+        function runModuleSimulation(id) {
+            const targetResBox = document.getElementById(`res-${id}`);
+            targetResBox.classList.remove('hidden');
         }
     </script>
 </body>
-    <!-- ==================== FINAL PREMIUM SYSTEM FOOTER SECTION ==================== -->
-<footer class="w-full max-w-6xl mx-auto mt-8 pt-6 pb-8 border-t border-slate-300/60 transition-all duration-1000 shrink-0 select-none">
-    <div class="flex flex-col space-y-6">
-        
-        <!-- Top Row: Asymmetric Micro-Metrics & Grid Anchor -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 px-2 font-mono text-[9px] text-slate-400">
-            <div class="space-y-1">
-                <span class="text-slate-900 font-bold block tracking-wider">// PLATFORM ARCHITECTURE</span>
-                <span class="text-slate-500 block">System Type: Tier-1 Intelligence Interface</span>
-                <span class="text-slate-500 block">Operational Node: Secured Matrix Core</span>
-            </div>
-            <div class="space-y-1">
-                <span class="text-slate-900 font-bold block tracking-wider">// SUBSURFACE DEPLOYMENT</span>
-                <span class="text-slate-500 block">Cryptographic Layer: AES-GCM 256bit</span>
-                <span class="text-slate-500 block">Vector Mapping: Active Sync Gateway</span>
-            </div>
-            <div class="space-y-1">
-                <span class="text-slate-900 font-bold block tracking-wider">// NODE SECURITY STATUS</span>
-                <span class="text-emerald-600 font-bold flex items-center space-x-1">
-                    <span class="w-1 h-1 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span>ALL CORE SUBSYSTEMS NOMINAL</span>
-                </span>
-                <span class="text-slate-500 block">Integrity Hash: 0x8F9B2A... SECURE</span>
-            </div>
-            <div class="space-y-1 text-right hidden md:block">
-                <span class="text-slate-900 font-bold block tracking-wider">// AUTHORIZED ACCESS ONLY</span>
-                <span class="text-slate-500 block">Session ID: <span class="text-slate-700 font-bold">X-9041-ALPHA-2026</span></span>
-                <span class="text-slate-500 block">Clearance Level: L5_MAXIMUM_OVERRIDE</span>
-            </div>
-        </div>
-
-        <!-- Middle Row: Decorative Structural Divider Line -->
-        <div class="flex items-center space-x-4 px-2">
-            <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-slate-300 to-slate-400/80"></div>
-            <div class="flex items-center space-x-1.5 font-mono text-[8px] text-slate-400 font-bold tracking-widest">
-                <span>[</span>
-                <span class="w-1 h-1 bg-slate-900 animate-ping"></span>
-                <span class="text-slate-900">TERMINAL_SECURE_HALT</span>
-                <span>]</span>
-            </div>
-            <div class="h-[1px] flex-1 bg-gradient-to-r from-slate-400/80 via-slate-300 to-transparent"></div>
-        </div>
-
-        <!-- Bottom Row: The Main Heavy Authority & Credit Block -->
-        <div class="flex flex-col md:flex-row justify-between items-center px-2 space-y-4 md:space-y-0">
-            
-            <!-- Left Side: Legal Framework and Dynamic Rights -->
-            <div class="flex flex-col space-y-1 text-center md:text-left">
-                <div class="flex items-center justify-center md:justify-start space-x-2 font-mono text-[10px] text-slate-800 tracking-wide">
-                    <span class="font-bold">© 2026 SECURE CRYPTO MATRIX.</span>
-                    <span class="text-slate-400">|</span>
-                    <span class="text-slate-500 text-[9px]">PROJECT IDENTITY: VULNERABILITY RESEARCH SYSTEM</span>
-                </div>
-                <span class="font-mono text-[8px] text-slate-400 uppercase tracking-tighter">
-                    All operations recorded under strict system auditing guidelines. Unauthorized cloning is heavily trace-vectored.
-                </span>
-            </div>
-
-            <!-- Right Side: The Premium Heavy Builder Identity Signature -->
-            <div class="flex items-center space-x-3 bg-slate-900 text-slate-100 p-2.5 px-4 rounded border border-slate-800 shadow-xl relative overflow-hidden group select-none">
-                <!-- Inner Decorative Tech Glow Accent -->
-                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
-                
-                <!-- Terminal Prompt Symbol -->
-                <div class="font-mono text-[11px] text-red-500 font-bold animate-pulse font-bold">// ROOT_ARCHITECT_</div>
-                
-                <!-- Builder Core Name Block -->
-                <div class="flex flex-col border-l border-slate-700 pl-3">
-                    <span class="text-[11px] tracking-[0.25em] text-white uppercase font-bold tech-font select-all">
-                        Saniya Yadav
-                    </span>
-                    <span class="font-mono text-[7px] tracking-widest text-slate-400 uppercase leading-none mt-0.5">
-                        System Security Engineer // Cyber-SaniyaX
-                    </span>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-</footer>
 </html>
